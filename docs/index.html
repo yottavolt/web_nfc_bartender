@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Cocktail HMI</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <!-- Burger -->
+  <button id="burger" class="burger"><span></span><span></span><span></span></button>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar">
+    <nav>
+      <button class="tab-link active" data-target="tab-drinks">Drinks</button>
+      <button class="tab-link" data-target="tab-status">Status</button>
+      <button class="tab-link" data-target="tab-config">Config</button>
+    </nav>
+  </aside>
+
+  <!-- Backdrop -->
+  <div id="backdrop" class="backdrop"></div>
+
+  <!-- Content -->
+  <main class="content">
+    <!-- Drinks -->
+    <section id="tab-drinks" class="tab active">
+      <div id="drinksGrid" class="grid"></div>
+    </section>
+
+    <!-- Status -->
+    <section id="tab-status" class="tab">
+      <div id="statusBars" class="bars"></div>
+    </section>
+
+    <!-- Config -->
+    <section id="tab-config" class="tab">
+      <div class="config">
+        <table class="ingredient-table">
+          <tbody id="ingredientsConfig"></tbody>
+        </table>
+
+        <!-- Flap toggle -->
+        <button id="toggleFlap" class="btn secondary">Show advanced (ml/drink)</button>
+        <div id="flap" class="flap hidden">
+          <h4>Ingredient sizes (ml)</h4>
+          <div id="ingredientSizes"></div>
+        </div>
+
+        <div class="form-row">
+          <label>Password</label>
+          <input id="cfgPassword" type="password"/>
+        </div>
+        <button id="btnWrite" class="btn">Write NFC</button>
+        <pre id="writeOutput"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

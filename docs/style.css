@@ -1,0 +1,192 @@
+body {
+  margin: 0;
+  background: #0e0f12;
+  color: #eee;
+  font-family: sans-serif;
+}
+
+/* Burger */
+.burger {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: #222;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  z-index: 500;
+}
+.burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #eee;
+  margin: 4px 0;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 180px;
+  background: #111;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  padding: 10px;
+  z-index: 600;
+}
+.sidebar.open { transform: translateX(0); }
+.tab-link {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  background: #222;
+  color: #eee;
+  border: none;
+  border-radius: 4px;
+  text-align: left;
+}
+
+/* Backdrop */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 550;
+}
+.backdrop.show { opacity: 1; pointer-events: auto; }
+
+/* Content */
+.content { padding: 70px 10px; position: relative; z-index: 100; }
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* Drinks grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 700px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1000px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+.card {
+  position: relative;
+  background: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.card img { width: 100%; display: block; }
+.hook {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(0,255,0,0.85);
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.card.disabled { opacity: .4; pointer-events: none; }
+
+/* Status bars */
+.bars { display: grid; gap: 12px; }
+.bar { background: #222; border-radius: 6px; overflow: hidden; }
+.bar-fill {
+  background: #4de2c1;
+  height: 22px;
+  line-height: 22px;
+  text-align: right;
+  padding-right: 6px;
+  color: #000;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* Config */
+.config { display: grid; gap: 14px; max-width: 400px; }
+.ingredient-table { width: 100%; border-collapse: collapse; }
+.ingredient-table td { padding: 8px; border-bottom: 1px solid #333; }
+.ingredient-table label { color: #ccc; }
+.ingredient-table input[type="checkbox"] { transform: scale(1.2); }
+
+.flap {
+  margin-top: 12px;
+  padding: 10px;
+  background: #1a1a1a;
+  border-radius: 6px;
+}
+.flap.hidden { display: none; }
+
+#ingredientSizes { display: grid; gap: 8px; }
+#ingredientSizes .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#ingredientSizes label { flex: 1; }
+#ingredientSizes input {
+  width: 80px;
+  text-align: right;
+  background: #222;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.form-row { display: flex; flex-direction: column; gap: 6px; }
+.config input[type="password"] {
+  background: #222;
+  color: #eee;
+  border: 1px solid #333;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn {
+  background: #4de2c1;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.btn.secondary { background: #333; color: #eee; }
+
+pre {
+  background: #111;
+  padding: 10px;
+  white-space: pre-wrap;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* for the green hook or red cross on the drink display*/
+.hook {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.hook.ok {
+  background: rgba(0,255,0,0.85);
+  color: #000;
+}
+
+.hook.bad {
+  background: rgba(255,0,0,0.85);
+  color: #fff;
+}
