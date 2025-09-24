@@ -8,28 +8,21 @@ const INGREDIENTS = [
 ];
 const DRINKS_COUNT = 6;
 
-// --- URI parsing: ?lock=2,3&i1=10&i2=20&i3=40&i4=60
+// --- URI parsing ---
 function parseURI() {
-  const { pathname, search } = window.location;
-  const segments = pathname.split('/').filter(Boolean);
+  const params = new URLSearchParams(window.location.search);
   const disabled = new Set();
 
-  // --- Query style: ?lock=2,3 ---
-  const params = new URLSearchParams(search);
   if (params.has('lock')) {
-    const list = params.get('lock').split(',');
-    list.forEach(s => {
+    params.get('lock').split(',').forEach(s => {
       const n = parseInt(s, 10);
       if (n > 0) disabled.add(n);
     });
   }
 
-  // Ingredient values: ?i1=10&i2=20...
   INGREDIENTS.forEach((ing, i) => {
     const v = params.get(`i${i + 1}`);
-    if (v !== null) {
-      ing.pct = Math.min(100, Math.max(0, parseInt(v, 10) || 0));
-    }
+    if (v !== null) ing.pct = Math.min(100, Math.max(0, parseInt(v, 10) || 0));
   });
 
   return { disabled };
@@ -73,7 +66,7 @@ function renderStatus() {
     const fill = document.createElement('div');
     fill.className = 'bar-fill';
     fill.style.width = ing.pct + '%';
-    fill.textContent = ing.name + ' ' + ing.pct + '%';
+    fill.textContent = `${ing.name} ${ing.pct}%`;
     bar.appendChild(fill);
     bars.appendChild(bar);
   });
@@ -97,49 +90,43 @@ function renderConfig() {
     table.appendChild(tr);
   });
 
-
-  // write button
-document.getElementById('btnWrite').onclick = () => {
-  const pwd = document.getElementById('cfgPassword').value;
-  const out = document.getElementById('writeOutput');
   const btn = document.getElementById('btnWrite');
+  btn.onclick = () => {
+    const pwd = document.getElementById('cfgPassword').value;
+    const out = document.getElementById('writeOutput');
 
-  const resets = INGREDIENTS.map((ing, i) => ({
-    name: ing.name,
-    reset: document.getElementById(`reset${i}`).checked,
-    size: ing.size || 0,
-    index: i + 1
-  }));
+    const resets = INGREDIENTS.map((ing, i) => ({
+      name: ing.name,
+      reset: document.getElementById(`reset${i}`).checked,
+      size: ing.size || 0,
+      index: i + 1
+    }));
 
-  // Display output in text area
-  out.textContent =
-    'Password: ' + (pwd ? '(provided)' : '(empty)') + '\n' +
-    resets.map(r => `${r.name} | reset=${r.reset} | size=${r.size}ml`).join('\n');
+    out.textContent =
+      'Password: ' + (pwd ? '(provided)' : '(empty)') + '\n' +
+      resets.map(r => `${r.name} | reset=${r.reset} | size=${r.size}ml`).join('\n');
 
-  // Build NFC string
-  const resetIndices = resets
-    .map(r => r.reset ? r.index : null)
-    .filter(i => i !== null);
+    const resetIndices = resets.filter(r => r.reset).map(r => r.index);
+    const sizeEntries = resets.filter(r => !r.reset && r.size > 0).map(r => `s${r.index},${r.size}`);
 
-  const sizeEntries = resets
-    .filter(r => !r.reset && r.size > 0)
-    .map(r => `s${r.index},${r.size}`);
+    let nfcPayload = '';
+    if (resetIndices.length) nfcPayload += `r=${resetIndices.join(',')}`;
+    if (sizeEntries.length) nfcPayload += (nfcPayload ? ' ' : '') + sizeEntries.join(' ');
 
-  let nfcPayload = '';
-  if (resetIndices.length > 0) {
-    nfcPayload += `r=${resetIndices.join(',')}`;
-  }
-  if (sizeEntries.length > 0) {
-    if (nfcPayload) nfcPayload += ' ';
-    nfcPayload += sizeEntries.join(' ');
-  }
+    out.textContent += '\n📝 NFC string generated:\n' + nfcPayload;
 
-  // Instead of writing to NFC, just log the payload
-  console.log('Generated NFC string:', nfcPayload);
-  out.textContent += '\n📝 NFC string generated:\n' + nfcPayload;
-  btn.textContent = 'String Logged';
-};
-
+    openNFCModal(nfcPayload, (statusEl, modal) => {
+      const ndef = new NDEFWriter();
+      ndef.write(nfcPayload)
+        .then(() => {
+          statusEl.textContent = '✅ NFC write successful!';
+          setTimeout(() => modal.remove(), 1500);
+        })
+        .catch(err => {
+          statusEl.textContent = `❌ Error: ${err.message}`;
+        });
+    });
+  };
 }
 
 // --- Tabs & sidebar ---
@@ -169,7 +156,7 @@ function initUI() {
   });
 }
 
-//write to nfc modal
+// --- NFC Modal ---
 function openNFCModal(dataString, onWriteNFC) {
   const modal = document.createElement('div');
   modal.className = 'nfc-modal';
@@ -190,42 +177,39 @@ function openNFCModal(dataString, onWriteNFC) {
 
   if ('NDEFWriter' in window) {
     statusEl.textContent = '📡 Tap "Write Now" and approach the NFC reader...';
-    writeBtn.onclick = () => {
-      onWriteNFC(statusEl, modal);
-    };
+    writeBtn.onclick = () => onWriteNFC(statusEl, modal);
   } else {
     statusEl.textContent = '⚠️ Web NFC not supported.\nPlease use NFC Tools app.';
-    writeBtn.remove(); // Remove NFC button
+    writeBtn.remove();
     copyBtn.onclick = () => {
       navigator.clipboard.writeText(dataString).then(() => modal.remove());
     };
   }
 }
 
+// --- Boot ---
+document.addEventListener('DOMContentLoaded', () => {
+  const { disabled } = parseURI();
+  renderDrinks(disabled);
+  renderStatus();
+  renderConfig();
+  initUI();
 
-
-
-document.getElementById('btnTestnfc').addEventListener('click', () => {
-  const payload = '<Test>';
-  openNFCModal(payload, (statusEl, modal) => {
-    const ndef = new NDEFWriter();
-    ndef.write(payload)
-      .then(() => {
-        statusEl.textContent = '✅ NFC write successful!';
-        setTimeout(() => modal.remove(), 1500);
-      })
-      .catch(err => {
-        statusEl.textContent = `❌ Error: ${err.message}`;
+  const testBtn = document.getElementById('btnTestnfc');
+  if (testBtn) {
+    testBtn.addEventListener('click', () => {
+      const payload = '<Test>';
+      openNFCModal(payload, (statusEl, modal) => {
+        const ndef = new NDEFWriter();
+        ndef.write(payload)
+          .then(() => {
+            statusEl.textContent = '✅ NFC write successful!';
+            setTimeout(() => modal.remove(), 1500);
+          })
+          .catch(err => {
+            statusEl.textContent = `❌ Error: ${err.message}`;
+          });
       });
-  });
+    });
+  }
 });
-
-
-
-
-
-
-
-
-
-
