@@ -126,7 +126,6 @@ function renderConfig() {
   });
 
   // write button
-
 document.getElementById('btnWrite').onclick = () => {
   const pwd = document.getElementById('cfgPassword').value;
   const out = document.getElementById('writeOutput');
@@ -162,24 +161,10 @@ document.getElementById('btnWrite').onclick = () => {
     nfcPayload += sizeEntries.join(' ');
   }
 
-  // Write to NFC
-  if ('NDEFWriter' in window) {
-    const writer = new NDEFWriter();
-    writer.write(nfcPayload).then(() => {
-      console.log('NFC write successful:', nfcPayload);
-      btn.textContent = 'Move to Reader';
-      btn.disabled = false;
-    }).catch(err => {
-      console.error('NFC write failed:', err);
-      out.textContent += '\n⚠️ NFC write failed: ' + err.message;
-      btn.textContent = 'Write to NFC (Retry)';
-    });
-  } else {
-    console.warn('NFC not supported in this browser.');
-    out.textContent += '\n❌ NFC not supported in this browser.';
-    btn.textContent = 'NFC Unsupported';
-    btn.disabled = true;
-  }
+  // Instead of writing to NFC, just log the payload
+  console.log('Generated NFC string:', nfcPayload);
+  out.textContent += '\n📝 NFC string generated:\n' + nfcPayload;
+  btn.textContent = 'String Logged';
 };
 
 }
@@ -223,21 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-async function checkNFC() {
-  const supported = 'NDEFReader' in window;
-  let permission = 'unknown';
 
-  try {
-    const status = await navigator.permissions.query({ name: 'nfc' });
-    permission = status.state;
-  } catch (e) {
-    permission = 'not available';
-  }
-
-  console.log(`NFC API supported: ${supported}`);
-  console.log(`NFC permission: ${permission}`);
-}
-checkNFC();
 
 
 
