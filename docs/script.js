@@ -4,6 +4,7 @@ const INGREDIENTS = [
   { name: "Lime Juice", pct: 0, size: 0 },
   { name: "Triple Sec", pct: 0, size: 0 },
   { name: "Rum", pct: 0, size: 0 },
+  { name: "Rum1", pct: 0, size: 0 },
 ];
 const DRINKS_COUNT = 6;
 
@@ -12,15 +13,6 @@ function parseURI() {
   const { pathname, search } = window.location;
   const segments = pathname.split('/').filter(Boolean);
   const disabled = new Set();
-
-  // --- Path style: /lock/2/3 ---
-  const lockIdx = segments.indexOf('lock');
-  if (lockIdx !== -1) {
-    segments.slice(lockIdx + 1).forEach(s => {
-      const n = parseInt(s, 10);
-      if (n > 0) disabled.add(n);
-    });
-  }
 
   // --- Query style: ?lock=2,3 ---
   const params = new URLSearchParams(search);
@@ -37,7 +29,6 @@ function parseURI() {
     const v = params.get(`i${i + 1}`);
     if (v !== null) {
       ing.pct = Math.min(100, Math.max(0, parseInt(v, 10) || 0));
-      ing.size = ing.pct; // if you want to treat them as ml instead of %
     }
   });
 
@@ -135,18 +126,53 @@ function renderConfig() {
   });
 
   // write button
-  document.getElementById('btnWrite').onclick = () => {
-    const pwd = document.getElementById('cfgPassword').value;
-    const out = document.getElementById('writeOutput');
-    const resets = INGREDIENTS.map((ing, i) => ({
-      name: ing.name,
-      reset: document.getElementById(`reset${i}`).checked,
-      size: ing.size || 0
-    }));
-    out.textContent =
-      'Password: ' + (pwd ? '(provided)' : '(empty)') + '\n' +
-      resets.map(r => `${r.name} | reset=${r.reset} | size=${r.size}ml`).join('\n');
-  };
+document.getElementById('btnWrite').onclick = () => {
+  const pwd = document.getElementById('cfgPassword').value;
+  const out = document.getElementById('writeOutput');
+
+  const resets = INGREDIENTS.map((ing, i) => ({
+    name: ing.name,
+    reset: document.getElementById(`reset${i}`).checked,
+    size: ing.size || 0,
+    index: i + 1 // for NFC formatting like s1, s2, etc.
+  }));
+
+  // Display output in text area
+  out.textContent =
+    'Password: ' + (pwd ? '(provided)' : '(empty)') + '\n' +
+    resets.map(r => `${r.name} | reset=${r.reset} | size=${r.size}ml`).join('\n');
+
+  // Build NFC string
+  const resetIndices = resets
+    .map(r => r.reset ? r.index : null)
+    .filter(i => i !== null);
+
+  const sizeEntries = resets
+    .filter(r => !r.reset && r.size > 0)
+    .map(r => `s${r.index},${r.size}`);
+
+  let nfcPayload = '';
+  if (resetIndices.length > 0) {
+    nfcPayload += `r=${resetIndices.join(',')}`;
+  }
+  if (sizeEntries.length > 0) {
+    if (nfcPayload) nfcPayload += ' ';
+    nfcPayload += sizeEntries.join(' ');
+  }
+
+  // Write to NFC (assuming you have an NFC API available)
+  if ('NDEFWriter' in window) {
+    const writer = new NDEFWriter();
+    writer.write(nfcPayload).then(() => {
+      console.log('NFC write successful:', nfcPayload);
+    }).catch(err => {
+      console.error('NFC write failed:', err);
+    });
+  } else {
+    console.warn('NFC not supported in this browser.');
+  }
+};
+
 }
 
 // --- Tabs & sidebar ---
