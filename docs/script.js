@@ -238,3 +238,7 @@ async function checkNFC() {
   console.log(`NFC permission: ${permission}`);
 }
 checkNFC();
+
+
+
+

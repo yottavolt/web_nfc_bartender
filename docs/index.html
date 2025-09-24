@@ -62,5 +62,12 @@
 </body>
 </html>
 
-<script src="https://unpkg.com/eruda"></script>
-<script>eruda.init();</script>
+
+<script>
+  window.addEventListener('load', () => {
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/eruda';
+    document.body.appendChild(script);
+    script.onload = () => eruda.init();
+  });
+</script>
