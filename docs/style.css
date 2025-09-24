@@ -190,3 +190,75 @@ pre {
   background: rgba(255,0,0,0.85);
   color: #fff;
 }
+
+/* Backdrop */
+.nfc-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7); /* darker overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* NFC Modal Backdrop */
+.nfc-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* slightly darker than .5 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 700; /* above sidebar and backdrop */
+}
+.nfc-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Content */
+.nfc-modal .modal-content {
+  background: #111; /* matches sidebar */
+  color: #eee;      /* matches text color */
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.nfc-modal h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #eee;
+}
+
+.nfc-modal p {
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.nfc-modal button {
+  margin-top: 1rem;
+  padding: 10px 16px;
+  background: #222; /* matches burger and tab-link */
+  color: #eee;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.nfc-modal button:hover {
+  background: #333;
+}
+

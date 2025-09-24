@@ -169,39 +169,48 @@ function initUI() {
   });
 }
 
-//write to nfc function
-function writeToNFC(dataString) {
-  const outputEl = document.getElementById('writeOutput');
-  outputEl.textContent = ''; // Clear previous output
+//write to nfc modal
+function openNFCModal(dataString) {
+  const modal = document.createElement('div');
+  modal.className = 'nfc-modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>Write to NFC</h3>
+      <p id="nfcStatus">Checking NFC support...</p>
+      <button id="copyFallback">📋 Copy to Clipboard</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.classList.add('show');
+
+  const statusEl = modal.querySelector('#nfcStatus');
+  const copyBtn = modal.querySelector('#copyFallback');
 
   if ('NDEFWriter' in window) {
+    statusEl.textContent = '📡 Approach the NFC reader...';
     const ndef = new NDEFWriter();
-    outputEl.textContent = 'Approach the NFC reader...';
-
     ndef.write(dataString)
-      .then(() => {
-        outputEl.textContent = '✅ Successfully written to NFC tag!';
-      })
-      .catch(err => {
-        outputEl.textContent = `❌ Write failed: ${err.message}`;
-      });
+      .then(() => statusEl.textContent = '✅ Write successful!')
+      .catch(err => statusEl.textContent = `❌ Error: ${err.message}`);
   } else {
-    outputEl.textContent = `⚠️ Web NFC not supported. Please copy and write manually using an NFC app.\n\nData:\n${dataString}`;
-    showCopyButton(dataString);
+    statusEl.textContent = '⚠️ Web NFC not supported.\n Please create a Text record with the Clip';
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(dataString)
+        .then(() => {
+          modal.remove(); // Close modal after copying
+        });
+    };
   }
 }
 
-function showCopyButton(text) {
-  const btn = document.createElement('button');
-  btn.textContent = '📋 Copy to Clipboard';
-  btn.className = 'btn secondary';
-  btn.onclick = () => {
-    navigator.clipboard.writeText(text)
-      .then(() => alert('Copied to clipboard!'))
-      .catch(() => alert('Failed to copy.'));
-  };
-  document.getElementById('writeOutput').appendChild(btn);
-}
+
+
+
+//attatch write to nfc modal to test button
+document.getElementById('btnTestnfc').addEventListener('click', () => {
+  openNFCModal('<Test>');
+});
+
 
 // --- Boot ---
 document.addEventListener('DOMContentLoaded', () => {
