@@ -1,58 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Cocktail HMI</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark NFC Webpage</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Burger -->
-  <button id="burger" class="burger"><span></span><span></span><span></span></button>
-
-  <!-- Sidebar -->
-  <aside id="sidebar" class="sidebar">
-    <nav>
-      <button class="tab-link active" data-target="tab-drinks">Drinks</button>
-      <button class="tab-link" data-target="tab-status">Status</button>
-      <button class="tab-link" data-target="tab-config">Config</button>
+  <header>
+    <button id="burger">&#9776;</button>
+    <nav id="navMenu" class="hidden">
+      <button onclick="showTab('home')">Home</button>
+      <button onclick="showTab('status')">Status</button>
+      <button onclick="showTab('config')">Config</button>
     </nav>
-  </aside>
+  </header>
 
-  <!-- Backdrop -->
-  <div id="backdrop" class="backdrop"></div>
-
-  <!-- Content -->
-  <main class="content">
-    <!-- Drinks -->
-    <section id="tab-drinks" class="tab active">
-      <div id="drinksGrid" class="grid"></div>
+  <main>
+    <section id="home" class="tab active">
+      <h1>Welcome Home</h1>
+      <p>This is the home tab.</p>
     </section>
 
-    <!-- Status -->
-    <section id="tab-status" class="tab">
-      <div id="statusBars" class="bars"></div>
+    <section id="status" class="tab">
+      <h1>Status</h1>
+      <p>System status info goes here.</p>
     </section>
 
-    <!-- Config -->
-    <section id="tab-config" class="tab">
-      <div class="config">
-        <table class="ingredient-table">
-          <tbody id="ingredientsConfig"></tbody>
-        </table>
-        <div class="form-row">
-          <label>Password</label>
-          <input id="cfgPassword" type="password"/>
-        </div>
-        <button id="btnWrite" class="btn">Write NFC</button>
-        <pre id="writeOutput"></pre>
-        <button id="btnTestnfc" class="btn">Test NFC</button>
-        <pre id="Testnfcoutput"></pre>
-      </div>
+    <section id="config" class="tab">
+      <h1>Configuration</h1>
+      <p>Write to NFC tag:</p>
+      <input type="text" id="nfcText" placeholder="Enter text to write" />
+      <button onclick="writeToNFC()">Write to NFC</button>
     </section>
   </main>
 
   <script src="script.js"></script>
 </body>
 </html>
-
