@@ -97,33 +97,6 @@ function renderConfig() {
     table.appendChild(tr);
   });
 
-  // flap toggle
-  const flap = document.getElementById('flap');
-  const toggleBtn = document.getElementById('toggleFlap');
-  toggleBtn.onclick = () => {
-    flap.classList.toggle('hidden');
-    toggleBtn.textContent = flap.classList.contains('hidden')
-      ? 'Show advanced (ml/drink)'
-      : 'Hide advanced (ml/drink)';
-  };
-
-  // ingredient sizes inside flap
-  const sizes = document.getElementById('ingredientSizes');
-  sizes.innerHTML = '';
-  INGREDIENTS.forEach((ing, i) => {
-    const row = document.createElement('div');
-    row.className = 'row';
-    const label = document.createElement('label');
-    label.textContent = ing.name;
-    const input = document.createElement('input');
-    input.type = 'number';
-    input.value = ing.size || 0;
-    input.min = 0;
-    input.oninput = () => { ing.size = parseInt(input.value, 10) || 0; };
-    row.appendChild(label);
-    row.appendChild(input);
-    sizes.appendChild(row);
-  });
 
   // write button
 document.getElementById('btnWrite').onclick = () => {
