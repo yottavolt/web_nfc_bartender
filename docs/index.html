@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head><title>Web NFC Test</title></head>
+  <head><title>Web NFC Testyy</title></head>
   <body>
-    <button onclick="writeNFC()">Write NFC</button>
+    <button id="nfcBtn">Write NFC</button>
     <script>
-      async function writeNFC() {
+      document.getElementById("nfcBtn").addEventListener("click", async () => {
         const text = "Hello NFC!";
         if ("NDEFWriter" in window) {
           try {
             const writer = new NDEFWriter();
-            alert("Approach tag...");
+            alert("Approach your NFC tag now...");
             await writer.write({ records: [{ recordType: "text", data: text }] });
-            alert("Success!");
+            alert("Tag written successfully!");
           } catch (err) {
-            alert("Error: " + err);
+            alert("Write failed: " + err.message);
           }
         } else {
-          await navigator.clipboard.writeText(text);
-          alert("Web NFC not supported. Text copied.");
+          try {
+            await navigator.clipboard.writeText(text);
+            alert("Web NFC not supported. Text copied to clipboard.");
+          } catch (err) {
+            alert("Clipboard failed. Please copy manually: " + text);
+          }
         }
-      }
+      });
     </script>
   </body>
 </html>
