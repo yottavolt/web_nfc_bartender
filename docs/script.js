@@ -193,7 +193,7 @@ function openNFCModal(dataString) {
       .then(() => statusEl.textContent = '✅ Write successful!')
       .catch(err => statusEl.textContent = `❌ Error: ${err.message}`);
   } else {
-    statusEl.textContent = '⚠️ Web NFC not supported.\n Please create a Text record with the Clip';
+    statusEl.textContent = '⚠️ Web NFC not supported.\n Please create a Text record with the Clipboard content in the NFC-Tools app';
     copyBtn.onclick = () => {
       navigator.clipboard.writeText(dataString)
         .then(() => {

@@ -65,3 +65,21 @@
     script.onload = () => eruda.init();
   });
 </script>
+
+
+<button id="testNFC">Test NFC</button>
+<script>
+  document.getElementById('testNFC').addEventListener('click', async () => {
+    if ('NDEFWriter' in window) {
+      try {
+        const ndef = new NDEFWriter();
+        await ndef.write("Test NFC payload");
+        alert("✅ NFC write successful!");
+      } catch (err) {
+        alert("❌ NFC write failed: " + err.message);
+      }
+    } else {
+      alert("⚠️ Web NFC not supported.");
+    }
+  });
+</script>
