@@ -170,7 +170,7 @@ function initUI() {
 }
 
 //write to nfc modal
-function openNFCModal(dataString) {
+function openNFCModal(dataString, onWriteNFC) {
   const modal = document.createElement('div');
   modal.className = 'nfc-modal';
   modal.innerHTML = `
@@ -178,6 +178,7 @@ function openNFCModal(dataString) {
       <h3>Write to NFC</h3>
       <p id="nfcStatus">Checking NFC support...</p>
       <button id="copyFallback">📋 Copy to Clipboard</button>
+      <button id="writeNow">Write Now</button>
     </div>
   `;
   document.body.appendChild(modal);
@@ -185,20 +186,18 @@ function openNFCModal(dataString) {
 
   const statusEl = modal.querySelector('#nfcStatus');
   const copyBtn = modal.querySelector('#copyFallback');
+  const writeBtn = modal.querySelector('#writeNow');
 
   if ('NDEFWriter' in window) {
-    statusEl.textContent = '📡 Approach the NFC reader...';
-    const ndef = new NDEFWriter();
-    ndef.write(dataString)
-      .then(() => statusEl.textContent = '✅ Write successful!')
-      .catch(err => statusEl.textContent = `❌ Error: ${err.message}`);
+    statusEl.textContent = '📡 Tap "Write Now" and approach the NFC reader...';
+    writeBtn.onclick = () => {
+      onWriteNFC(statusEl, modal);
+    };
   } else {
-    statusEl.textContent = '⚠️ Web NFC not supported.\n Please create a Text record with the Clipboard content in the NFC-Tools app';
+    statusEl.textContent = '⚠️ Web NFC not supported.\nPlease use NFC Tools app.';
+    writeBtn.remove(); // Remove NFC button
     copyBtn.onclick = () => {
-      navigator.clipboard.writeText(dataString)
-        .then(() => {
-          modal.remove(); // Close modal after copying
-        });
+      navigator.clipboard.writeText(dataString).then(() => modal.remove());
     };
   }
 }
@@ -206,21 +205,21 @@ function openNFCModal(dataString) {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  const { disabled } = parseURI();
-  renderDrinks(disabled);
-  renderStatus();
-  renderConfig();
-  initUI();
-
-  // ✅ Attach NFC listener after DOM is ready
-  const testBtn = document.getElementById('btnTestnfc');
-  if (testBtn) {
-    testBtn.addEventListener('click', () => {
-      openNFCModal('<Test>');
-    });
-  }
+document.getElementById('btnTestnfc').addEventListener('click', () => {
+  const payload = '<Test>';
+  openNFCModal(payload, (statusEl, modal) => {
+    const ndef = new NDEFWriter();
+    ndef.write(payload)
+      .then(() => {
+        statusEl.textContent = '✅ NFC write successful!';
+        setTimeout(() => modal.remove(), 1500);
+      })
+      .catch(err => {
+        statusEl.textContent = `❌ Error: ${err.message}`;
+      });
+  });
 });
+
 
 
 
