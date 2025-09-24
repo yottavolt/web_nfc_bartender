@@ -219,3 +219,22 @@ document.addEventListener('DOMContentLoaded', () => {
   renderConfig();
   initUI();
 });
+
+
+
+
+async function checkNFC() {
+  const supported = 'NDEFReader' in window;
+  let permission = 'unknown';
+
+  try {
+    const status = await navigator.permissions.query({ name: 'nfc' });
+    permission = status.state;
+  } catch (e) {
+    permission = 'not available';
+  }
+
+  console.log(`NFC API supported: ${supported}`);
+  console.log(`NFC permission: ${permission}`);
+}
+checkNFC();
