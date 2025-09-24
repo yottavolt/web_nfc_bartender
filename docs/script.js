@@ -169,6 +169,40 @@ function initUI() {
   });
 }
 
+//write to nfc function
+function writeToNFC(dataString) {
+  const outputEl = document.getElementById('writeOutput');
+  outputEl.textContent = ''; // Clear previous output
+
+  if ('NDEFWriter' in window) {
+    const ndef = new NDEFWriter();
+    outputEl.textContent = 'Approach the NFC reader...';
+
+    ndef.write(dataString)
+      .then(() => {
+        outputEl.textContent = '✅ Successfully written to NFC tag!';
+      })
+      .catch(err => {
+        outputEl.textContent = `❌ Write failed: ${err.message}`;
+      });
+  } else {
+    outputEl.textContent = `⚠️ Web NFC not supported. Please copy and write manually using an NFC app.\n\nData:\n${dataString}`;
+    showCopyButton(dataString);
+  }
+}
+
+function showCopyButton(text) {
+  const btn = document.createElement('button');
+  btn.textContent = '📋 Copy to Clipboard';
+  btn.className = 'btn secondary';
+  btn.onclick = () => {
+    navigator.clipboard.writeText(text)
+      .then(() => alert('Copied to clipboard!'))
+      .catch(() => alert('Failed to copy.'));
+  };
+  document.getElementById('writeOutput').appendChild(btn);
+}
+
 // --- Boot ---
 document.addEventListener('DOMContentLoaded', () => {
   const { disabled } = parseURI();
