@@ -10,6 +10,7 @@ const DRINKS_COUNT = 6;
 
 // --- URI parsing ---
 function parseURI() {
+  console.log("[parseURI] Parsing URL...");
   const params = new URLSearchParams(window.location.search);
   const disabled = new Set();
 
@@ -22,7 +23,9 @@ function parseURI() {
 
   INGREDIENTS.forEach((ing, i) => {
     const v = params.get(`i${i + 1}`);
-    if (v !== null) ing.pct = Math.min(100, Math.max(0, parseInt(v, 10) || 0));
+    if (v !== null) {
+      ing.pct = Math.min(100, Math.max(0, parseInt(v, 10) || 0));
+    }
   });
 
   return { disabled };
@@ -90,8 +93,7 @@ function renderConfig() {
     table.appendChild(tr);
   });
 
-  const btn = document.getElementById('btnWrite');
-  btn.onclick = () => {
+  document.getElementById('btnWrite').onclick = () => {
     const pwd = document.getElementById('cfgPassword').value;
     const out = document.getElementById('writeOutput');
 
@@ -124,12 +126,13 @@ function renderConfig() {
         })
         .catch(err => {
           statusEl.textContent = `❌ Error: ${err.message}`;
+          console.error("[NFC] Write failed:", err);
         });
     });
   };
 }
 
-// --- Tabs & sidebar ---
+// --- Sidebar and tabs ---
 function initUI() {
   const sidebar = document.getElementById('sidebar');
   const backdrop = document.getElementById('backdrop');
@@ -182,13 +185,17 @@ function openNFCModal(dataString, onWriteNFC) {
     statusEl.textContent = '⚠️ Web NFC not supported.\nPlease use NFC Tools app.';
     writeBtn.remove();
     copyBtn.onclick = () => {
-      navigator.clipboard.writeText(dataString).then(() => modal.remove());
+      navigator.clipboard.writeText(dataString).then(() => {
+        statusEl.textContent = '✅ Copied to clipboard';
+        setTimeout(() => modal.remove(), 1000);
+      });
     };
   }
 }
 
 // --- Boot ---
 document.addEventListener('DOMContentLoaded', () => {
+  console.log("[Boot] DOM loaded");
   const { disabled } = parseURI();
   renderDrinks(disabled);
   renderStatus();
@@ -208,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
           })
           .catch(err => {
             statusEl.textContent = `❌ Error: ${err.message}`;
+            console.error("[Test NFC] Write failed:", err);
           });
       });
     });
