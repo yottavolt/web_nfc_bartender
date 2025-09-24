@@ -126,15 +126,17 @@ function renderConfig() {
   });
 
   // write button
+
 document.getElementById('btnWrite').onclick = () => {
   const pwd = document.getElementById('cfgPassword').value;
   const out = document.getElementById('writeOutput');
+  const btn = document.getElementById('btnWrite');
 
   const resets = INGREDIENTS.map((ing, i) => ({
     name: ing.name,
     reset: document.getElementById(`reset${i}`).checked,
     size: ing.size || 0,
-    index: i + 1 // for NFC formatting like s1, s2, etc.
+    index: i + 1
   }));
 
   // Display output in text area
@@ -160,16 +162,23 @@ document.getElementById('btnWrite').onclick = () => {
     nfcPayload += sizeEntries.join(' ');
   }
 
-  // Write to NFC (assuming you have an NFC API available)
+  // Write to NFC
   if ('NDEFWriter' in window) {
     const writer = new NDEFWriter();
     writer.write(nfcPayload).then(() => {
       console.log('NFC write successful:', nfcPayload);
+      btn.textContent = 'Move to Reader';
+      btn.disabled = false;
     }).catch(err => {
       console.error('NFC write failed:', err);
+      out.textContent += '\n⚠️ NFC write failed: ' + err.message;
+      btn.textContent = 'Write to NFC (Retry)';
     });
   } else {
     console.warn('NFC not supported in this browser.');
+    out.textContent += '\n❌ NFC not supported in this browser.';
+    btn.textContent = 'NFC Unsupported';
+    btn.disabled = true;
   }
 };
 
