@@ -1,49 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Simple Web NFC</title>
-  <style>
-    body {
-      background-color: #121212;
-      color: #e0e0e0;
-      font-family: sans-serif;
-      padding: 2em;
-    }
-    button {
-      padding: 1em;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <h1>Web NFC Writer</h1>
-  <button onclick="writeNFC()">Write to NFC Tag</button>
-
-  <script>
-    async function writeNFC() {
-      const text = "Hello from Web NFC!";
-      if ("NDEFWriter" in window) {
-        try {
-          const writer = new NDEFWriter();
-          alert("Approach an NFC tag to write...");
-          await writer.write({ records: [{ recordType: "text", data: text }] });
-          alert("Tag written successfully!");
-        } catch (err) {
-          alert("Error writing to tag: " + err);
-        }
-      } else {
-        try {
-          await navigator.clipboard.writeText(text);
-          alert("Web NFC not supported. Text copied to clipboard for manual writing.");
-        } catch (err) {
-          alert("Clipboard copy failed. Please copy manually: " + text);
+<html>
+  <head>
+    <title>Web NFC Test</title>
+  </head>
+  <body>
+    <button onclick="writeNFC()">Write NFC</button>
+    <script>
+      async function writeNFC() {
+        const text = "Hello from Web NFC!";
+        if ("NDEFWriter" in window) {
+          try {
+            const writer = new NDEFWriter();
+            alert("Approach an NFC tag...");
+            await writer.write({ records: [{ recordType: "text", data: text }] });
+            alert("Tag written successfully!");
+          } catch (err) {
+            alert("Error: " + err);
+          }
+        } else {
+          try {
+            await navigator.clipboard.writeText(text);
+            alert("Web NFC not supported. Text copied to clipboard.");
+          } catch (err) {
+            alert("Clipboard failed. Please copy manually: " + text);
+          }
         }
       }
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>
