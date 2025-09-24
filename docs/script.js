@@ -206,19 +206,20 @@ function openNFCModal(dataString) {
 
 
 
-//attatch write to nfc modal to test button
-document.getElementById('btnTestnfc').addEventListener('click', () => {
-  openNFCModal('<Test>');
-});
-
-
-// --- Boot ---
 document.addEventListener('DOMContentLoaded', () => {
   const { disabled } = parseURI();
   renderDrinks(disabled);
   renderStatus();
   renderConfig();
   initUI();
+
+  // ✅ Attach NFC listener after DOM is ready
+  const testBtn = document.getElementById('btnTestnfc');
+  if (testBtn) {
+    testBtn.addEventListener('click', () => {
+      openNFCModal('<Test>');
+    });
+  }
 });
 
 
