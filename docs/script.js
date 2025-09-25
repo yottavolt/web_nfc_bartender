@@ -118,13 +118,79 @@ function showSuccessAndClose(button, successText = '✅ Success', restoreText = 
   }, delay);
 }
 
+const availabilityMask = new URLSearchParams(window.location.search).get('d') || '00';
+const activeBits = parseInt(availabilityMask, 16);
+
+function isButtonActive(index) {
+  return (activeBits & (1 << index)) !== 0;
+}
+
+function generatePayload(type, values) {
+  switch (type) {
+    case 'TEMP':
+      return '<TEMP>' + values.map(v => {
+        const clamped = Math.max(-20, Math.min(50, v));
+        const mapped = Math.round((clamped + 20) * 255 / 70);
+        return mapped.toString(16).padStart(2, '0').toUpperCase();
+      }).join('');
+    default:
+      return '<DATA>' + values.join('');
+  }
+}
+
+function createNFCButton(index, imageSrc, payload) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'nfc-button-wrapper';
+
+  const styledButton = document.createElement('button');
+  styledButton.className = 'nfc-button';
+  styledButton.innerHTML = `
+    <img src="${imageSrc}" alt="Icon" />
+    <div class="badge index">${index + 1}</div>
+    <div class="badge status">${isButtonActive(index) ? '✅' : '❌'}</div>
+  `;
+
+  const proxyButton = document.createElement('button');
+  proxyButton.id = `nfcProxyBtn${index}`;
+  proxyButton.style.display = 'none'; // hidden but functional
+
+  wrapper.appendChild(styledButton);
+  wrapper.appendChild(proxyButton);
+
+  // Trigger proxy button when styled button is clicked
+  styledButton.addEventListener('click', () => {
+    proxyButton.click();
+  });
+
+  // Setup NFC logic on proxy button
+  setupDynamicNFCButton2(proxyButton.id, () => payload);
+
+  return wrapper;
+}
+
+function setupButtons() {
+  const buttons = [
+    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [22, 18, 25]) },
+    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [30, 15, 10]) },
+    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [12, 35, 40]) },
+    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [5, 8, 20]) },
+  ];
+
+  const grid = document.getElementById('buttonGrid');
+
+  buttons.forEach((btn, i) => {
+    const el = createNFCButton(i, btn.image, btn.payload);
+    grid.appendChild(el);
+    setupDynamicNFCButton2(el.id, () => btn.payload);
+  });
+}
+
 //setup stuff
 document.addEventListener('DOMContentLoaded', () => {
-
   setupDynamicNFCButton2('test3Btn', () => {
     const temps = [22, 18, 25, 30, 15, 10];
     return generatePayload('TEMP', temps);
   });
-
-
 });
+
+document.addEventListener('DOMContentLoaded', setupButtons);
