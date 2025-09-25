@@ -274,6 +274,11 @@ function setupDynamicNFCButton(buttonId, getPayloadFn) {
 
 function setupDynamicNFCButton2(buttonId, getPayloadFn) {
   const button = document.getElementById(buttonId);
+  if (!button) {
+    console.error(`Button with ID "${buttonId}" not found.`);
+    return;
+  }
+
   const modal = document.getElementById('nfcModal');
   const message = document.getElementById('nfcMessage');
   const copyBtn = document.getElementById('copyFallbackBtn');
@@ -308,13 +313,14 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         copyBtn.classList.add('hidden');
         showSuccessAndClose(button, '✅ Copied');
       } catch (err) {
-        message.textContent = '❌ Failed to copy. Please copy manually.';
         console.error(err);
+        message.textContent = '❌ Failed to copy. Please copy manually.';
         showSuccessAndClose(button, '❌ Copy failed');
       }
     };
   });
 }
+
 
 
 function showSuccessAndClose(button, successText = '✅ Success', restoreText = 'Write to NFC', delay = 500) {
