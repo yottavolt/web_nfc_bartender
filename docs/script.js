@@ -278,7 +278,9 @@ function setupDynamicNFCButton(buttonId, getPayloadFn) {
 //setup stuff
 setupNFCButton('test1Btn', '<DATA>ABC123')
 
-setupDynamicNFCButton('test2Btn', () => {
-  const temps = [22, 18, 25, 30, 15, 10]; // could be pulled from inputs
-  return generatePayload('TEMP', temps);
+document.addEventListener('DOMContentLoaded', () => {
+  setupDynamicNFCButton('test2Btn', () => {
+    const temps = [22, 18, 25, 30, 15, 10];
+    return generatePayload('TEMP', temps);
+  });
 });
