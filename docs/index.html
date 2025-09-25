@@ -17,6 +17,15 @@
     <button onclick="showSection('config')">Config</button>
   </aside>
 
+ <!-- Modal -->
+<div id="nfcModal" class="modal hidden">
+  <div class="modal-content">
+    <p id="nfcMessage">Hold your phone near the NFC tag...</p>
+    <button id="copyFallbackBtn" class="hidden">📋 Copy to Clipboard</button>
+    <button id="closeModalBtn">✖ Close</button>
+  </div>
+</div>
+
   <!-- Pages -->
 <div id="home" class="section active">
   <div class="gauges-grid" id="gaugesContainer" style="margin-top: 4rem"></div>
@@ -27,6 +36,7 @@
     <button id="colorOkBtn">Save via NFC</button>
     <button id="test1Btn">NFC-HelloWorld</button>
     <button id="test2Btn">Write Temp to NFC</button>
+    <button id="test3Btn">Write Temp to NFC</button>
   </div>
 </div>
 

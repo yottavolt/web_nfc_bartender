@@ -272,6 +272,51 @@ function setupDynamicNFCButton(buttonId, getPayloadFn) {
   });
 }
 
+function setupDynamicNFCButton2(buttonId, getPayloadFn) {
+  const button = document.getElementById(buttonId);
+  const modal = document.getElementById('nfcModal');
+  const message = document.getElementById('nfcMessage');
+  const copyBtn = document.getElementById('copyFallbackBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+
+  button.addEventListener('click', async () => {
+    const payload = getPayloadFn();
+    modal.classList.remove('hidden');
+    copyBtn.classList.add('hidden');
+    message.textContent = '📡 Hold your phone near the NFC tag...';
+
+    if ('NDEFReader' in window) {
+      try {
+        const ndef = new NDEFReader();
+        await ndef.write({ records: [{ recordType: "text", data: payload }] });
+        message.textContent = '✅ NFC write successful!';
+      } catch (err) {
+        console.error(err);
+        message.textContent = '❌ NFC write failed. Try again or use fallback.';
+        copyBtn.classList.remove('hidden');
+      }
+    } else {
+      message.textContent = '⚠️ Web NFC not supported. Use NFC Tools to write manually.';
+      copyBtn.classList.remove('hidden');
+    }
+
+    copyBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(payload);
+        message.textContent = '✅ Copied to clipboard. Paste into NFC Tools.';
+        copyBtn.classList.add('hidden');
+      } catch (err) {
+        message.textContent = '❌ Failed to copy. Please copy manually.';
+        console.error(err);
+      }
+    };
+
+    closeBtn.onclick = () => {
+      modal.classList.add('hidden');
+    };
+  });
+}
+
 
 
 
@@ -280,6 +325,13 @@ setupNFCButton('test1Btn', '<DATA>ABC123')
 
 document.addEventListener('DOMContentLoaded', () => {
   setupDynamicNFCButton('test2Btn', () => {
+    const temps = [22, 18, 25, 30, 15, 10];
+    return generatePayload('TEMP', temps);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupDynamicNFCButton2('test3Btn', () => {
     const temps = [22, 18, 25, 30, 15, 10];
     return generatePayload('TEMP', temps);
   });
