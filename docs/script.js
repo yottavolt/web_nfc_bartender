@@ -295,6 +295,7 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         console.error(err);
         message.textContent = '❌ NFC write failed. Try again or use fallback.';
         copyBtn.classList.remove('hidden');
+        showSuccessAndClose();
       }
     } else {
       message.textContent = '⚠️ Web NFC not supported. Use NFC Tools to write manually.';
@@ -306,11 +307,11 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         await navigator.clipboard.writeText(payload);
         message.textContent = '✅ Copied to clipboard. Paste into NFC Tools.';
         copyBtn.classList.add('hidden');
-        showSuccessAndClose();
       } catch (err) {
         message.textContent = '❌ Failed to copy. Please copy manually.';
         console.error(err);
       }
+      showSuccessAndClose();
     };
 
     closeBtn.onclick = () => {
