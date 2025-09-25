@@ -290,6 +290,7 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         const ndef = new NDEFReader();
         await ndef.write({ records: [{ recordType: "text", data: payload }] });
         message.textContent = '✅ NFC write successful!';
+        closeModalAfterDelay();
       } catch (err) {
         console.error(err);
         message.textContent = '❌ NFC write failed. Try again or use fallback.';
@@ -305,6 +306,7 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         await navigator.clipboard.writeText(payload);
         message.textContent = '✅ Copied to clipboard. Paste into NFC Tools.';
         copyBtn.classList.add('hidden');
+        closeModalAfterDelay();
       } catch (err) {
         message.textContent = '❌ Failed to copy. Please copy manually.';
         console.error(err);
@@ -315,6 +317,12 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
       modal.classList.add('hidden');
     };
   });
+}
+
+function closeModalAfterDelay(delay = 1000) {
+  setTimeout(() => {
+    document.getElementById('nfcModal').classList.add('hidden');
+  }, delay);
 }
 
 
