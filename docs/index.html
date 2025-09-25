@@ -14,7 +14,7 @@
   <!-- Sidebar -->
   <aside id="sidebar" aria-label="Sidebar navigation">
     <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('config')">Config</button>
+    <button onclick="showSection('status')">Status</button>
   </aside>
 
  <!-- Modal -->
@@ -27,25 +27,19 @@
 </div>
 
   <!-- Pages -->
-<div id="home" class="section active">
-  <div class="gauges-grid" id="gaugesContainer" style="margin-top: 4rem"></div>
-
-  <div class="color-center">
-    <input type="color" id="colorInput" value="#00aaff" />
-    <div id="colorPreview" style="width:40px; height:40px; border-radius:6px;"></div>
-    <button id="colorOkBtn">Save via NFC</button>
-    <button id="test1Btn">NFC-HelloWorld</button>
-    <button id="test2Btn">Write Temp to NFC</button>
+<div id="home" class="section active" style="text-align:center">
+    <br>
+    <br>
     <button id="test3Btn">Write Temp to NFC111</button>
-  </div>
 </div>
 
-  <div id="config" class="section">
+<div id="status" class="section">
     <div class="form-grid" id="formContainer" style="margin-top: 4rem;"></div>
     <div style="text-align:center">
-      <button id="writeBtn">Save via NFC</button>
+      <h1>blalabla</h1>
     </div>
-  </div>
+</div>
+
 
 </body>
 <script src="script.js" defer></script>
