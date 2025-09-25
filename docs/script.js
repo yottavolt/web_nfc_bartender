@@ -184,7 +184,7 @@ setTimeout(() => {
 }, 3000);
 });
 
-//function to handle all nfc write stuff 
+//first try of nfc button
 function setupNFCButton(buttonId, textToWrite) {
   const button = document.getElementById(buttonId);
 
@@ -220,4 +220,65 @@ function setupNFCButton(buttonId, textToWrite) {
   });
 }
 
+//second try of dynamic button handling
+function generatePayload(type, values) {
+  switch (type) {
+    case 'TEMP':
+      return '<TEMP>' + values.map(v => {
+        const clamped = Math.max(-20, Math.min(50, v));
+        const mapped = Math.round((clamped + 20) * 255 / 70);
+        return mapped.toString(16).padStart(2, '0').toUpperCase();
+      }).join('');
+    case 'COL':
+      const [r, g, b] = values;
+      return `<COL>${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
+    default:
+      return '<DATA>' + values.join('');
+  }
+}
+
+function setupDynamicNFCButton(buttonId, getPayloadFn) {
+  const button = document.getElementById(buttonId);
+
+  button.addEventListener('click', async () => {
+    const payload = getPayloadFn();
+
+    if ('NDEFReader' in window) {
+      const proceed = confirm("✅ Web NFC is available.\nMove your device near the NFC tag to write.");
+      if (!proceed) return;
+
+      try {
+        const ndef = new NDEFReader();
+        await ndef.write({ records: [{ recordType: "text", data: payload }] });
+
+        button.textContent = '✅ NFC write success';
+        setTimeout(() => button.textContent = 'Write to NFC', 2000);
+      } catch (err) {
+        alert("❌ NFC write failed. Make sure your device supports Web NFC and uses HTTPS.");
+        console.error(err);
+      }
+    } else {
+      const fallback = confirm("⚠️ Web NFC not supported.\nUse NFC Tools to manually write.\nClick OK to copy the text to clipboard.");
+      if (fallback) {
+        try {
+          await navigator.clipboard.writeText(payload);
+          alert("✅ Text copied to clipboard. Paste it into your NFC writing app.");
+        } catch (err) {
+          alert("❌ Failed to copy text. Please copy manually.");
+          console.error(err);
+        }
+      }
+    }
+  });
+}
+
+
+
+
+//setup stuff
 setupNFCButton('test1Btn', '<DATA>ABC123')
+
+setupDynamicNFCButton('test2Btn', () => {
+  const temps = [22, 18, 25, 30, 15, 10]; // could be pulled from inputs
+  return generatePayload('TEMP', temps);
+});
