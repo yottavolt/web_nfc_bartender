@@ -308,7 +308,6 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         message.textContent = '✅ Copied to clipboard. Paste into NFC Tools.';
         copyBtn.classList.add('hidden');
       } catch (err) {
-        message.textContent = '❌ Failed to copy. Please copy manually.';
         console.error(err);
       }
       showSuccessAndClose();
