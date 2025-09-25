@@ -277,7 +277,6 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
   const modal = document.getElementById('nfcModal');
   const message = document.getElementById('nfcMessage');
   const copyBtn = document.getElementById('copyFallbackBtn');
-  const closeBtn = document.getElementById('closeModalBtn');
 
   button.addEventListener('click', async () => {
     const payload = getPayloadFn();
@@ -290,12 +289,12 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         const ndef = new NDEFReader();
         await ndef.write({ records: [{ recordType: "text", data: payload }] });
         message.textContent = '✅ NFC write successful!';
-        showSuccessAndClose();
+        showSuccessAndClose(button, '✅ NFC write success');
       } catch (err) {
         console.error(err);
         message.textContent = '❌ NFC write failed. Try again or use fallback.';
         copyBtn.classList.remove('hidden');
-        showSuccessAndClose();
+        showSuccessAndClose(button, '❌ Write failed');
       }
     } else {
       message.textContent = '⚠️ Web NFC not supported. Use NFC Tools to write manually.';
@@ -307,19 +306,18 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         await navigator.clipboard.writeText(payload);
         message.textContent = '✅ Copied to clipboard. Paste into NFC Tools.';
         copyBtn.classList.add('hidden');
+        showSuccessAndClose(button, '✅ Copied');
       } catch (err) {
+        message.textContent = '❌ Failed to copy. Please copy manually.';
         console.error(err);
+        showSuccessAndClose(button, '❌ Copy failed');
       }
-      showSuccessAndClose();
-    };
-
-    closeBtn.onclick = () => {
-      modal.classList.add('hidden');
     };
   });
 }
 
-function showSuccessAndClose(button, successText = '✅ Success', restoreText = 'Write to NFC', delay = 600) {
+
+function showSuccessAndClose(button, successText = '✅ Success', restoreText = 'Write to NFC', delay = 500) {
   button.disabled = true;
   button.textContent = successText;
   button.style.opacity = '0.6';
@@ -328,9 +326,11 @@ function showSuccessAndClose(button, successText = '✅ Success', restoreText = 
     button.textContent = restoreText;
     button.disabled = false;
     button.style.opacity = '1';
-    document.getElementById('nfcModal').classList.add('hidden');
+    const modal = document.getElementById('nfcModal');
+    if (modal) modal.classList.add('hidden');
   }, delay);
 }
+
 
 
 //setup stuff
