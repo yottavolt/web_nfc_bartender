@@ -284,6 +284,7 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
   const copyBtn = document.getElementById('copyFallbackBtn');
 
   button.addEventListener('click', async () => {
+    console.log("copyBtn:", copyBtn);
     const payload = getPayloadFn();
     modal.classList.remove('hidden');
     copyBtn.classList.add('hidden');
