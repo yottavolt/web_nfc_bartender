@@ -1,29 +1,43 @@
 <!DOCTYPE html>
-<html>
-  <head><title>Web NFC Testyy</title></head>
-  <body>
-    <button id="nfcBtn">Write NFC</button>
-    <script>
-      document.getElementById("nfcBtn").addEventListener("click", async () => {
-        const text = "Hello NFC!";
-        if ("NDEFWriter" in window) {
-          try {
-            const writer = new NDEFWriter();
-            alert("Approach your NFC tag now...");
-            await writer.write({ records: [{ recordType: "text", data: text }] });
-            alert("Tag written successfully!");
-          } catch (err) {
-            alert("Write failed: " + err.message);
-          }
-        } else {
-          try {
-            await navigator.clipboard.writeText(text);
-            alert("Web NFC not supported. Text copied to clipboard.");
-          } catch (err) {
-            alert("Clipboard failed. Please copy manually: " + text);
-          }
-        }
-      });
-    </script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Temperature Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <!-- Hamburger -->
+  <button id="menu-toggle" class="hamburger" aria-label="Open menu">&#9776;</button>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" aria-label="Sidebar navigation">
+    <button onclick="showSection('home')">Home</button>
+    <button onclick="showSection('config')">Config</button>
+  </aside>
+
+  <!-- Pages -->
+<div id="home" class="section active">
+  <div class="gauges-grid" id="gaugesContainer" style="margin-top: 4rem"></div>
+
+  <div class="color-center">
+    <input type="color" id="colorInput" value="#00aaff" />
+    <div id="colorPreview" style="width:40px; height:40px; border-radius:6px;"></div>
+    <button id="colorOkBtn">Save via NFC</button>
+  </div>
+</div>
+
+  <div id="config" class="section">
+    <div class="form-grid" id="formContainer" style="margin-top: 4rem;"></div>
+    <div style="text-align:center">
+      <button id="writeBtn">Save via NFC</button>
+    </div>
+  </div>
+
+</body>
+<script src="script.js" defer></script>
 </html>
+
+<script src="https://unpkg.com/eruda"></script>
+<script>eruda.init();</script>
