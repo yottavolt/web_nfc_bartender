@@ -158,13 +158,6 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
 
     const isActive = activeIds.has(id.toString());
 
-    if (isActive) {
-      button.classList.add('active');
-
-      // Attach NFC writer only if active
-      setupDynamicNFCButton2(button.id, () => payload);
-    }
-
     // Image
     const img = document.createElement('img');
     img.src = imageUrl;
@@ -183,7 +176,13 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
     button.appendChild(img);
     button.appendChild(status);
     button.appendChild(indexBadge);
-    container.appendChild(button);
+    container.appendChild(button); 
+
+    if (isActive) {
+      button.classList.add('active');
+      // Attach NFC writer only if active
+      setupDynamicNFCButton2(button.id, () => payload);
+    }
   });
 }
 
