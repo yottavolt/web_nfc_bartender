@@ -70,7 +70,7 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
     const payload = getPayloadFn();
     modal.classList.remove('hidden');
     copyBtn.classList.add('hidden');
-    message.textContent = '📡 Hold your phone near the NFC tag...';
+    message.textContent = '📶 Hold your phone near the NFC tag... 📶';
 
     if ('NDEFReader' in window) {
       try {
@@ -105,14 +105,20 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
 }
 
 function showSuccessAndClose(button, successText = '✅ Success', restoreText = 'Write to NFC', delay = 1000) {
+  const originalContent = button.innerHTML || button.textContent;
+
   button.disabled = true;
-  button.textContent = successText;
-  button.style.opacity = '0.6';
+  // Don't change button content here
 
   setTimeout(() => {
-    button.textContent = restoreText;
+    // Restore original content and enable button
+    if (button.innerHTML !== undefined) {
+      button.innerHTML = originalContent;
+    } else {
+      button.textContent = originalContent;
+    }
     button.disabled = false;
-    button.style.opacity = '1';
+
     const modal = document.getElementById('nfcModal');
     if (modal) modal.classList.add('hidden');
   }, delay);
@@ -146,55 +152,68 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
     return;
   }
 
+  // Clear any existing buttons (optional safety)
+  container.innerHTML = '';
+
+  // Parse active button IDs from URL query string
   const urlParams = new URLSearchParams(window.location.search);
   const activeIds = new Set(urlParams.getAll('active'));
 
   buttonsData.forEach((buttonData, index) => {
     const { id, imageUrl, payload } = buttonData;
 
+    // Create the outer button element
     const button = document.createElement('div');
     button.classList.add('nfc-button');
     button.id = `nfc-btn-${id}`;
 
-    const isActive = activeIds.has(id.toString());
+    // Create a protected inner wrapper that holds the visual content
+    const contentWrapper = document.createElement('div');
+    contentWrapper.classList.add('nfc-button-content');
 
     // Image
     const img = document.createElement('img');
     img.src = imageUrl;
     img.alt = `Button ${index + 1}`;
 
-    // Status (✅ or ❌)
+    // Status icon (✅ or ❌)
     const status = document.createElement('div');
     status.className = 'status-icon';
-    status.textContent = isActive ? '✅' : '❌';
+    status.textContent = activeIds.has(id.toString()) ? '✅' : '❌';
 
-    // Index badge
+    // Index number
     const indexBadge = document.createElement('div');
     indexBadge.className = 'index-badge';
     indexBadge.textContent = index + 1;
 
-    button.appendChild(img);
-    button.appendChild(status);
-    button.appendChild(indexBadge);
-    container.appendChild(button); 
+    // Append everything
+    contentWrapper.appendChild(img);
+    contentWrapper.appendChild(status);
+    contentWrapper.appendChild(indexBadge);
+    button.appendChild(contentWrapper);
+    container.appendChild(button);
 
-    if (isActive) {
+    // If this button is active, enable it and set up NFC
+    if (activeIds.has(id.toString())) {
       button.classList.add('active');
-      // Attach NFC writer only if active
+      button.style.cursor = 'pointer';
+
+      // ✅ Safe to call now — element exists in DOM
       setupDynamicNFCButton2(button.id, () => payload);
     }
   });
 }
 
-
-
 //setup stuff
 document.addEventListener('DOMContentLoaded', () => {
-  setupDynamicNFCButton2('test3Btn', () => {
-    const temps = [22, 18, 25, 30, 15, 10];
-    return generatePayload('TEMP', temps);
-  });
-  setupMultipleNFCButtons("buttonContainer", buttonsData);
+  //setupDynamicNFCButton2('test3Btn', () => {
+  //  const temps = [22, 18, 25, 30, 15, 10];
+  //  return generatePayload('TEMP', temps);
+  //});
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupMultipleNFCButtons('buttonContainer', buttonsData);
 });
 
 
