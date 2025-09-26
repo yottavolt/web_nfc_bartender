@@ -209,7 +209,7 @@ button#writeBtn:hover {
 /* coctail order button style*/
 .nfc-button-container {
   display: grid;
-  gap: 4px;
+  gap: 10px;
   padding: 4px;
   width: 100vw;
   max-width: 100%;
