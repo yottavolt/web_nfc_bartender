@@ -138,52 +138,56 @@ function generatePayload(type, values) {
   }
 }
 
-function createNFCButton(index, imageSrc, payload) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'nfc-button-wrapper';
+//create buttons querry: ?active=1&active=3
+function setupMultipleNFCButtons(containerId, buttonsData) {
+  const container = document.getElementById(containerId);
+  if (!container) {
+    console.error(`Container with ID "${containerId}" not found.`);
+    return;
+  }
 
-  const styledButton = document.createElement('button');
-  styledButton.className = 'nfc-button';
-  styledButton.innerHTML = `
-    <img src="${imageSrc}" alt="Icon" />
-    <div class="badge index">${index + 1}</div>
-    <div class="badge status">${isButtonActive(index) ? '✅' : '❌'}</div>
-  `;
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeIds = new Set(urlParams.getAll('active'));
 
-  const proxyButton = document.createElement('button');
-  proxyButton.id = `nfcProxyBtn${index}`;
-  proxyButton.style.display = 'none'; // hidden but functional
+  buttonsData.forEach((buttonData, index) => {
+    const { id, imageUrl, payload } = buttonData;
 
-  wrapper.appendChild(styledButton);
-  wrapper.appendChild(proxyButton);
+    const button = document.createElement('div');
+    button.classList.add('nfc-button');
+    button.id = `nfc-btn-${id}`;
 
-  // Trigger proxy button when styled button is clicked
-  styledButton.addEventListener('click', () => {
-    proxyButton.click();
+    const isActive = activeIds.has(id.toString());
+
+    if (isActive) {
+      button.classList.add('active');
+
+      // Attach NFC writer only if active
+      setupDynamicNFCButton2(button.id, () => payload);
+    }
+
+    // Image
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.alt = `Button ${index + 1}`;
+
+    // Status (✅ or ❌)
+    const status = document.createElement('div');
+    status.className = 'status-icon';
+    status.textContent = isActive ? '✅' : '❌';
+
+    // Index badge
+    const indexBadge = document.createElement('div');
+    indexBadge.className = 'index-badge';
+    indexBadge.textContent = index + 1;
+
+    button.appendChild(img);
+    button.appendChild(status);
+    button.appendChild(indexBadge);
+    container.appendChild(button);
   });
-
-  // Setup NFC logic on proxy button
-  setupDynamicNFCButton2(proxyButton.id, () => payload);
-
-  return wrapper;
 }
 
-function setupButtons() {
-  const buttons = [
-    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [22, 18, 25]) },
-    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [30, 15, 10]) },
-    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [12, 35, 40]) },
-    { image: 'img/drink1.jpg', payload: generatePayload('TEMP', [5, 8, 20]) },
-  ];
 
-  const grid = document.getElementById('buttonGrid');
-
-  buttons.forEach((btn, i) => {
-    const el = createNFCButton(i, btn.image, btn.payload);
-    grid.appendChild(el);
-    setupDynamicNFCButton2(el.id, () => btn.payload);
-  });
-}
 
 //setup stuff
 document.addEventListener('DOMContentLoaded', () => {
@@ -191,6 +195,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const temps = [22, 18, 25, 30, 15, 10];
     return generatePayload('TEMP', temps);
   });
+  setupMultipleNFCButtons("buttonContainer", buttonsData);
 });
 
-document.addEventListener('DOMContentLoaded', setupButtons);
+
+const buttonsData = [
+  {
+    id: "1",
+    label: "Mojito",
+    imageUrl: "img/drink1.jpg",
+    payload: "Drink: Mojito",
+  },
+  {
+    id: "2",
+    label: "Martini",
+    imageUrl: "img/drink2.jpg",
+    payload: "Drink: Martini",
+  },
+  {
+    id: "3",
+    label: "Negroni",
+    imageUrl: "img/drink3.jpg",
+    payload: "Drink: Negroni",
+  },
+  {
+    id: "4",
+    label: "Daiquiri",
+    imageUrl: "img/drink4.jpg",
+    payload: "Drink: Daiquiri",
+  }
+];
+
+
+
+
