@@ -72,7 +72,7 @@ body {
 /* Main sections */
 .section {
     display: none;
-    padding: 2rem;
+    padding: 1rem;
     max-width: 960px;
     margin: auto;
 }
