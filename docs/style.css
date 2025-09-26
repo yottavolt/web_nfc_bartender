@@ -214,7 +214,7 @@ button#writeBtn:hover {
   width: 100vw;
   max-width: 100%;
   box-sizing: border-box;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 @media (max-width: 320px) {
