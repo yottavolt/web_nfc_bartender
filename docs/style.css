@@ -209,10 +209,21 @@ button#writeBtn:hover {
 /* coctail order button style*/
 .nfc-button-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-  padding: 12px;
+  gap: 4px;
+  padding: 4px;
+  width: 100vw;
+  max-width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
+
+@media (max-width: 320px) {
+  /* On very small screens, force 2 columns */
+  .nfc-button-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 
 .nfc-button {
   position: relative;
