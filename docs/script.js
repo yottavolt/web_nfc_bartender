@@ -224,61 +224,61 @@ const buttonsData = [
   {
     id: "1",
     imageUrl: "img/drink1.png",
-    payload: "Drink: Mojito",
+    payload: "<1>",
   },
   {
     id: "2",
     imageUrl: "img/drink2.png",
-    payload: "Drink: Martini",
+    payload: "<2>",
   },
   {
     id: "3",
     imageUrl: "img/drink3.png",
-    payload: "Drink: Negroni",
+    payload: "<3>",
   },
   {
     id: "4",
     imageUrl: "img/drink4.png",
-    payload: "Drink: Daiquiri",
+    payload: "<4>",
   },
     {
     id: "5",
     imageUrl: "img/drink5.png",
-    payload: "Drink: Daiquiri",
+    payload: "<5>",
   },
     {
     id: "6",
     imageUrl: "img/drink6.png",
-    payload: "Drink: Daiquiri",
+    payload: "<6>",
   },
     {
     id: "7",
     imageUrl: "img/drink7.png",
-    payload: "Drink: Daiquiri",
+    payload: "<7>",
   },
     {
     id: "8",
     imageUrl: "img/drink8.png",
-    payload: "Drink: Daiquiri",
+    payload: "<8>",
   },
     {
     id: "9",
     imageUrl: "img/drink9.png",
-    payload: "Drink: Daiquiri",
+    payload: "<9>",
   },
     {
     id: "10",
     imageUrl: "img/drink10.png",
-    payload: "Drink: Daiquiri",
+    payload: "<10>",
   },  {
     id: "11",
     imageUrl: "img/drink11.png",
-    payload: "Drink: Daiquiri",
+    payload: "<11>",
   },
     {
     id: "12",
     imageUrl: "img/drink12.png",
-    payload: "Drink: Daiquiri",
+    payload: "<12>",
   },
     {
     id: "13",
