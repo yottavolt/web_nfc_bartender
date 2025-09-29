@@ -144,7 +144,7 @@ function generatePayload(type, values) {
   }
 }
 
-//create buttons querry: ?active=1&active=3
+//?active=FF
 function setupMultipleNFCButtons(containerId, buttonsData) {
   const container = document.getElementById(containerId);
   if (!container) {
@@ -152,22 +152,22 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
     return;
   }
 
-  // Clear any existing buttons (optional safety)
+  // Clear any existing buttons
   container.innerHTML = '';
 
-  // Parse active button IDs from URL query string
+  // Parse the active bitmask from URL query string
   const urlParams = new URLSearchParams(window.location.search);
-  const activeIds = new Set(urlParams.getAll('active'));
+  const activeHex = urlParams.get('active') || '0';
+  const activeMask = parseInt(activeHex, 16); // Convert hex string to integer
 
   buttonsData.forEach((buttonData, index) => {
     const { id, imageUrl, payload } = buttonData;
 
-    // Create the outer button element
+    // Create button
     const button = document.createElement('div');
     button.classList.add('nfc-button');
     button.id = `nfc-btn-${id}`;
 
-    // Create a protected inner wrapper that holds the visual content
     const contentWrapper = document.createElement('div');
     contentWrapper.classList.add('nfc-button-content');
 
@@ -176,12 +176,15 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
     img.src = imageUrl;
     img.alt = `Button ${index + 1}`;
 
-    // Status icon (✅ or ❌)
+    // Status icon
     const status = document.createElement('div');
     status.className = 'status-icon';
-    status.textContent = activeIds.has(id.toString()) ? '✅' : '❌';
 
-    // Index number
+    // Determine if this button is active using bitmask
+    const isActive = (activeMask & (1 << (id - 1))) !== 0;
+    status.textContent = isActive ? '✅' : '❌';
+
+    // Index badge
     const indexBadge = document.createElement('div');
     indexBadge.className = 'index-badge';
     indexBadge.textContent = index + 1;
@@ -193,16 +196,16 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
     button.appendChild(contentWrapper);
     container.appendChild(button);
 
-    // If this button is active, enable it and set up NFC
-    if (activeIds.has(id.toString())) {
+    // Setup NFC if active
+    if (isActive) {
       button.classList.add('active');
       button.style.cursor = 'pointer';
-
-      // ✅ Safe to call now — element exists in DOM
       setupDynamicNFCButton2(button.id, () => payload);
     }
   });
 }
+
+
 
 //setup stuff
 document.addEventListener('DOMContentLoaded', () => {
