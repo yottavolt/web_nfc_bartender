@@ -144,43 +144,64 @@ function generatePayload(type, values) {
   }
 }
 
-//?active=FF
-function setupMultipleNFCButtons(containerId, buttonsData) {
+//function for providing labelling inside the nfc button  //?active=FF
+function setupMultipleNFCButtonswithName(containerId, buttonsData) {
   const container = document.getElementById(containerId);
   if (!container) {
     console.error(`Container with ID "${containerId}" not found.`);
     return;
   }
 
-  // Clear any existing buttons
   container.innerHTML = '';
 
-  // Parse the active bitmask from URL query string
   const urlParams = new URLSearchParams(window.location.search);
   const activeHex = urlParams.get('active') || '0';
-  const activeMask = parseInt(activeHex, 16); // Convert hex string to integer
+  const activeMask = parseInt(activeHex, 16);
 
   buttonsData.forEach((buttonData, index) => {
-    const { id, imageUrl, payload } = buttonData;
+    const { id, imageUrl, payload, name } = buttonData;
 
-    // Create button
+    // Outer button container
     const button = document.createElement('div');
     button.classList.add('nfc-button');
     button.id = `nfc-btn-${id}`;
-
-    const contentWrapper = document.createElement('div');
-    contentWrapper.classList.add('nfc-button-content');
+    button.style.position = 'relative'; // Needed for absolute overlay
+    button.style.display = 'inline-block'; // Make it size to content
 
     // Image
     const img = document.createElement('img');
     img.src = imageUrl;
     img.alt = `Button ${index + 1}`;
+    img.style.display = 'block'; // remove inline spacing
+    img.style.width = '100%';
+    img.style.height = 'auto';
+
+    // Optional cocktail name overlay
+    if (name) {
+      const nameOverlay = document.createElement('div');
+      nameOverlay.textContent = name;
+      Object.assign(nameOverlay.style, {
+        position: 'absolute',
+        bottom: '5px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        color:  'rgba(255, 247, 232, 0.6)',
+        fontWeight: 'bold',
+        padding: '2px 6px',
+        borderRadius: '4px',
+        fontSize: '0.9em',
+        textAlign: 'center',
+        pointerEvents: 'none',
+        zIndex: '10',
+        whiteSpace: 'nowrap'
+      });
+      button.appendChild(nameOverlay);
+    }
 
     // Status icon
     const status = document.createElement('div');
     status.className = 'status-icon';
-
-    // Determine if this button is active using bitmask
     const isActive = (activeMask & (1 << (id - 1))) !== 0;
     status.textContent = isActive ? '✅' : '❌';
 
@@ -189,14 +210,16 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
     indexBadge.className = 'index-badge';
     indexBadge.textContent = index + 1;
 
-    // Append everything
+    // Content wrapper
+    const contentWrapper = document.createElement('div');
+    contentWrapper.classList.add('nfc-button-content');
     contentWrapper.appendChild(img);
     contentWrapper.appendChild(status);
     contentWrapper.appendChild(indexBadge);
+
     button.appendChild(contentWrapper);
     container.appendChild(button);
 
-    // Setup NFC if active
     if (isActive) {
       button.classList.add('active');
       button.style.cursor = 'pointer';
@@ -204,6 +227,9 @@ function setupMultipleNFCButtons(containerId, buttonsData) {
     }
   });
 }
+
+
+
 
 
 
@@ -216,122 +242,34 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  setupMultipleNFCButtons('buttonContainer', buttonsData);
+  //setupMultipleNFCButtons('buttonContainer', buttonsData);
+  setupMultipleNFCButtonswithName('buttonContainer', buttonsDatanamed);
 });
 
 
-const buttonsData = [
+const buttonsDatanamed = [
   {
-    id: "1",
-    imageUrl: "img/drink1.png",
-    payload: "<1>",
-  },
-  {
-    id: "2",
-    imageUrl: "img/drink2.png",
-    payload: "<2>",
+    id: 1,
+    imageUrl: 'img/drink1.png',
+    payload: 'nfc-payload-1',
+    name: 'Mojito'
   },
   {
-    id: "3",
-    imageUrl: "img/drink3.png",
-    payload: "<3>",
+    id: 2,
+    imageUrl: 'img/drink2.png',
+    payload: 'nfc-payload-2',
+    name: 'Margarita'
   },
   {
-    id: "4",
-    imageUrl: "img/drink4.png",
-    payload: "<4>",
+    id: 3,
+    imageUrl: 'img/drink3.png',
+    payload: 'nfc-payload-3',
+    name: 'Old Fashioned'
   },
-    {
-    id: "5",
-    imageUrl: "img/drink5.png",
-    payload: "<5>",
-  },
-    {
-    id: "6",
-    imageUrl: "img/drink6.png",
-    payload: "<6>",
-  },
-    {
-    id: "7",
-    imageUrl: "img/drink7.png",
-    payload: "<7>",
-  },
-    {
-    id: "8",
-    imageUrl: "img/drink8.png",
-    payload: "<8>",
-  },
-    {
-    id: "9",
-    imageUrl: "img/drink9.png",
-    payload: "<9>",
-  },
-    {
-    id: "10",
-    imageUrl: "img/drink10.png",
-    payload: "<10>",
-  },  {
-    id: "11",
-    imageUrl: "img/drink11.png",
-    payload: "<11>",
-  },
-    {
-    id: "12",
-    imageUrl: "img/drink12.png",
-    payload: "<12>",
-  },
-    {
-    id: "13",
-    imageUrl: "img/drink13.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "14",
-    imageUrl: "img/drink14.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "15",
-    imageUrl: "img/drink15.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "16",
-    imageUrl: "img/drink16.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "17",
-    imageUrl: "img/drink17.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "18",
-    imageUrl: "img/drink18.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "19",
-    imageUrl: "img/drink19.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "20",
-    imageUrl: "img/drink20.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "21",
-    imageUrl: "img/drink21.png",
-    payload: "Drink: Daiquiri",
-  },
-    {
-    id: "22",
-    imageUrl: "img/drink22.png",
-    payload: "Drink: Daiquiri",
+  {
+    id: 4,
+    imageUrl: 'img/drink4.png',
+    payload: 'nfc-payload-4',
+    // name is optional, can be omitted
   }
 ];
-
-
-
-
