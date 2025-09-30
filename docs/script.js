@@ -228,37 +228,88 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
   });
 }
 
+// Parse hex string from query like ?level=FF00
+function getHexLevels() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const hexString = urlParams.get('level') || '';
+  return hexString.split('').map(char => {
+    const val = parseInt(char, 16);
+    return isNaN(val) ? 0 : Math.max(0, Math.min(val, 15)); // Clamp between 0–15
+  });
+}
 
+// Create loading bars
+function setupLoadingBars(ingredients) {
+  const container = document.getElementById('loading-container');
+  if (!container) return;
+
+  const levels = getHexLevels();
+
+  ingredients.forEach((ingredient, index) => {
+    const level = levels[index] ?? 0;
+    const percent = Math.round((level / 15) * 100);
+
+    // Wrapper
+    const wrapper = document.createElement('div');
+    wrapper.className = 'bar-wrapper';
+
+    // Bar container
+    const barContainer = document.createElement('div');
+    barContainer.className = 'bar-container';
+
+    // Fill bar (no text inside)
+    const fillBar = document.createElement('div');
+    fillBar.className = 'fill-bar';
+    fillBar.style.width = `${percent}%`;
+
+    // Label (centered, black text)
+    const label = document.createElement('div');
+    label.className = 'bar-label';
+    label.textContent = `${ingredient.ingredientName} (${percent}%)`;
+
+    // Reset checkbox (no logic)
+    const resetBox = document.createElement('input');
+    resetBox.type = 'checkbox';
+    resetBox.className = 'reset-checkbox';
+    resetBox.setAttribute('data-id', ingredient.id);
+    resetBox.title = 'Reset';
+
+    // Assemble
+    barContainer.appendChild(fillBar);
+    barContainer.appendChild(label);
+    wrapper.appendChild(barContainer);
+    wrapper.appendChild(resetBox);
+    container.appendChild(wrapper);
+  });
+}
 
 
 
 
 //setup stuff
 document.addEventListener('DOMContentLoaded', () => {
-  //setupDynamicNFCButton2('test3Btn', () => {
-  //  const temps = [22, 18, 25, 30, 15, 10];
-  //  return generatePayload('TEMP', temps);
-  //});
+  setupMultipleNFCButtonswithName('buttonContainer', DrinkButtons);
+  setupLoadingBars(Ingredients);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  //setupMultipleNFCButtons('buttonContainer', buttonsData);
-  setupMultipleNFCButtonswithName('buttonContainer', buttonsDatanamed);
-});
-
-
-const buttonsDatanamed = [
+const DrinkButtons = [
   {
+    //drink id 
     id: 1,
-    imageUrl: 'img/drink1.png',
-    payload: 'nfc-payload-1',
-    name: 'Mojito'
+    //display image path
+    imageUrl: 'img/drink2.png',
+    //possible manual override otherwise drink
+    payload: '<01>',      
+    //display name    
+    name: 'Margarita',        
+    // <slot-id 8 bitsy x4><amount in ml 0-255>  max 4 ingredients dispensed at the same time 
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>"
   },
   {
     id: 2,
     imageUrl: 'img/drink2.png',
-    payload: 'nfc-payload-2',
-    name: 'Margarita'
+    payload: '<01>',         
+    name: 'Margarita',     
   },
   {
     id: 3,
@@ -270,6 +321,23 @@ const buttonsDatanamed = [
     id: 4,
     imageUrl: 'img/drink4.png',
     payload: 'nfc-payload-4',
-    // name is optional, can be omitted
+    name: 'Old Fashioned'
   }
+];
+
+const Ingredients = [
+  {
+    id: 1,
+    ingredientName: 'Stuff1',
+    containersize_ml: 1200,
+    flow_rate_ml_min: 300,
+    metered: false
+  },
+  {
+    id: 2,
+    ingredientName: 'Stuff2',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
 ];
