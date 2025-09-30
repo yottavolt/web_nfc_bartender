@@ -1,6 +1,11 @@
 
-  const MIN = -20, MAX = 50, MID = 15;
-  const labels = ['Living Room', 'Kitchen', 'Bedroom', 'Office', 'Garage', 'Basement'];
+//planned for 16 pump channels / ingredients (theroreticly also 255 but only 4 dispensing at a time)
+//that can result with up to 255 configurable drinks
+
+//current design:
+//16pump channels
+//24 drinks
+
 
   // Sidebar toggle
   document.getElementById('menu-toggle').addEventListener('click', () => {
@@ -336,6 +341,69 @@ const Ingredients = [
   {
     id: 2,
     ingredientName: 'Stuff2',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 3,
+    ingredientName: 'Stuff3',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 4,
+    ingredientName: 'Stuff4',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 5,
+    ingredientName: 'Stuff5',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 6,
+    ingredientName: 'Stuff6',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 7,
+    ingredientName: 'Stuff7',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 8,
+    ingredientName: 'Stuff8',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 9,
+    ingredientName: 'P1',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 10,
+    ingredientName: 'P2',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 11,
+    ingredientName: 'P3',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
