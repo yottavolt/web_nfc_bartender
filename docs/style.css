@@ -279,5 +279,50 @@ button#writeBtn:hover {
   height: 24px;
   line-height: 24px;
   text-align: center;
-  color: #fff;
+  color: #160a0a;
+}
+
+/* Everything related to filling / status bar stuff*/
+.bar-wrapper {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar-container {
+  width: 100%;
+  height: 30px;
+  background-color: var(--bar-bg, #eee);
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  font-family: sans-serif;
+}
+
+.fill-bar {
+  height: 100%;
+  background-color: var(--bar-fill, #2196f3); /* Blue fill */
+  transition: width 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.bar-label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: black;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.reset-checkbox {
+  cursor: pointer;
+  transform: scale(1.2);
 }
