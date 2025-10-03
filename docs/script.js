@@ -170,14 +170,14 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
     const button = document.createElement('div');
     button.classList.add('nfc-button');
     button.id = `nfc-btn-${id}`;
-    button.style.position = 'relative'; // Needed for absolute overlay
-    button.style.display = 'inline-block'; // Make it size to content
+    button.style.position = 'relative';
+    button.style.display = 'inline-block';
 
     // Image
     const img = document.createElement('img');
     img.src = imageUrl;
     img.alt = `Button ${index + 1}`;
-    img.style.display = 'block'; // remove inline spacing
+    img.style.display = 'block';
     img.style.width = '100%';
     img.style.height = 'auto';
 
@@ -210,10 +210,26 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
     const isActive = (activeMask & (1 << (id - 1))) !== 0;
     status.textContent = isActive ? '✅' : '❌';
 
-    // Index badge
+    // Index badge (fixed styling + absolute position)
     const indexBadge = document.createElement('div');
     indexBadge.className = 'index-badge';
     indexBadge.textContent = index + 1;
+    Object.assign(indexBadge.style, {
+      position: 'absolute',
+      bottom: '5px',
+      right: '5px',
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      color: 'white',
+      borderRadius: '50%',
+      width: '24px',
+      height: '24px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '0.8em',
+      fontWeight: 'bold',
+      zIndex: '10'
+    });
 
     // Content wrapper
     const contentWrapper = document.createElement('div');
@@ -302,13 +318,15 @@ const DrinkButtons = [
     //drink id 
     id: 1,
     //display image path
-    imageUrl: 'img/drink2.png',
+    imageUrl: 'img/drink1.png',
     //possible manual override otherwise drink
     payload: '<01>',      
     //display name    
     name: 'Margarita',        
     // <slot-id 8 bitsy x4><amount in ml 0-255>  max 4 ingredients dispensed at the same time 
-    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>"
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
+    //comment: 
+    comment: "Enjoy your drink :)"
   },
   {
     id: 2,
@@ -333,77 +351,91 @@ const DrinkButtons = [
 const Ingredients = [
   {
     id: 1,
-    ingredientName: 'Stuff1',
+    ingredientName: 'Gin',
     containersize_ml: 1200,
     flow_rate_ml_min: 300,
     metered: false
   },
   {
     id: 2,
-    ingredientName: 'Stuff2',
+    ingredientName: 'Weisser-Rum',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 3,
-    ingredientName: 'Stuff3',
+    ingredientName: 'Vodka',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 4,
-    ingredientName: 'Stuff4',
+    ingredientName: 'Orangensaft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 5,
-    ingredientName: 'Stuff5',
+    ingredientName: 'Annanassaft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 6,
-    ingredientName: 'Stuff6',
+    ingredientName: 'Limettensaft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 7,
-    ingredientName: 'Stuff7',
+    ingredientName: 'Southern-Comfort',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 8,
-    ingredientName: 'Stuff8',
+    ingredientName: 'Tequilla',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 9,
-    ingredientName: 'P1',
+    ingredientName: 'Cranberry-Saft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 10,
-    ingredientName: 'P2',
+    ingredientName: 'Maraquja-Saft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 11,
-    ingredientName: 'P3',
+    ingredientName: 'Blue-Curacao',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 12,
+    ingredientName: 'Coconut-Sirup',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 13,
+    ingredientName: 'Grenadine-Sirup',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
