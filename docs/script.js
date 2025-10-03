@@ -182,7 +182,7 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
       nameOverlay.textContent = name;
       Object.assign(nameOverlay.style, {
         position: 'absolute',
-        bottom: '5px',
+        top: '5px',
         left: '50%',
         transform: 'translateX(-50%)',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
