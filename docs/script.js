@@ -348,9 +348,9 @@ const DrinkButtons = [
   },
   {
     id: 5,
-    imageUrl: 'img/drink3.png',
+    imageUrl: 'img/drink12.png',
     payload: '<xx>',
-    name: 'Planters-Punch'
+    name: 'Blue-Heaven'
   },
   {
     id: 6,
@@ -366,15 +366,15 @@ const DrinkButtons = [
   },
   {
     id: 8,
-    imageUrl: 'img/drink15.png',
-    payload: '<xx>',
-    name: 'Gin Tonic'
-  },
-  {
-    id: 9,
     imageUrl: 'img/drink2.png',
     payload: '<xx>',
     name: 'Vodka-Wildberry'
+  },
+  {
+    id: 9,
+    imageUrl: 'img/drink15.png',
+    payload: '<xx>',
+    name: 'Gin Tonic'
   },
   {
     id: 10,
@@ -390,33 +390,98 @@ const DrinkButtons = [
   },
   {
     id: 12,
-    imageUrl: 'img/drink10.png',
+    imageUrl: 'img/drink18.png',
     payload: '<xx>',
-    name: 'Alabama-Slammer'
+    name: 'Southern-O'
   },
   {
     id: 13,
-    imageUrl: 'img/drink11.png',
+    imageUrl: 'img/drink19.png',
     payload: '<xx>',
-    name: 'Southern-Hurricane'
+    name: 'BlueBerry-Cooler'
   },
   {
     id: 14,
-    imageUrl: 'img/drink5.png',
+    imageUrl: 'img/drink6.png',
     payload: '<xx>',
-    name: 'Bon-Voyage'
+    name: 'Southern-Berry'
   },
   {
-    id: 99,
-    imageUrl: 'img/drinkxx.png',
+    id: 15,
+    imageUrl: 'img/drink4.png',
     payload: '<xx>',
-    name: 'Dummy'
+    name: 'Tequilla-Cranberry'
   },
   {
-    id: 99,
-    imageUrl: 'img/drinkxx.png',
+    id: 16,
+    imageUrl: 'img/drink9.png',
     payload: '<xx>',
-    name: 'Dummy'
+    name: 'Blueberry-Smash'
+  },
+  {
+    id: 17,
+    imageUrl: 'img/drink14.png',
+    payload: '<xx>',
+    name: 'Berry-Colada'
+  },
+  {
+    id: 18,
+    imageUrl: 'img/drink16.png',
+    payload: '<xx>',
+    name: 'Gin-Fizz'
+  },
+  {
+    id: 19,
+    imageUrl: 'img/drink18.png',
+    payload: '<xx>',
+    name: 'Sunset-Mock'
+  },
+  {
+    id: 20,
+    imageUrl: 'img/drink20.png',
+    payload: '<xx>',
+      name: 'Blueberry-Tequilla'
+  },
+  {
+    id: 21,
+    imageUrl: 'img/drink12.png',
+    payload: '<xx>',
+      name: 'Ocean-Breeze'
+  },
+  {
+    id: 22,
+    imageUrl: 'img/drink14.png',
+    payload: '<xx>',
+      name: 'Coconut-Kiss NA'
+      //coconut sirup 60ml annanas 20ml limettensaft
+  },
+  {
+    id: 23,
+    imageUrl: 'img/drink13.png',
+    payload: '<xx>',
+    name: 'Berry-Blast NA'
+    //ingredients: 40ml Heidelberre, 40ml Cranberry, 20ml Limettensaft
+  },
+  {
+    id: 24,
+    imageUrl: 'img/drink1.png',
+    payload: '<xx>',
+    name: 'Abstinence Beach NA'
+      //40ml O-Saft 40ml Cranberry 20ml Annanas
+  },
+  {
+    id: 25,
+    imageUrl: 'img/drink3.png',
+    payload: '<xx>',
+    name: 'Citrus-Refresher NA'
+    //40ml Limette 60ml orange, grenadine sirup+ top with tonic water 
+  },
+  {
+    id: 26,
+    imageUrl: 'img/drink7.png',
+    payload: '<xx>',
+    name: 'Tropical-Sunset NA'
+    //orange ananas, grenadine
   },
 ];
 
@@ -444,35 +509,35 @@ const Ingredients = [
   },
   {
     id: 4,
-    ingredientName: 'Orangensaft',
-    containersize_ml: 600,
-    flow_rate_ml_min: 150,
-    metered: false
-  },
-  {
-    id: 5,
-    ingredientName: 'Annanassaft',
-    containersize_ml: 600,
-    flow_rate_ml_min: 150,
-    metered: false
-  },
-  {
-    id: 6,
-    ingredientName: 'Limettensaft',
-    containersize_ml: 600,
-    flow_rate_ml_min: 150,
-    metered: false
-  },
-  {
-    id: 7,
     ingredientName: 'Southern-Comfort',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
-    id: 8,
+    id: 5,
     ingredientName: 'Tequilla',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 6,
+    ingredientName: 'Orangensaft',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 7,
+    ingredientName: 'Annanassaft',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 8,
+    ingredientName: 'Limettensaft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
@@ -486,7 +551,7 @@ const Ingredients = [
   },
   {
     id: 10,
-    ingredientName: 'Wildberry-Juice',
+    ingredientName: 'Heidelbeer-Saft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
