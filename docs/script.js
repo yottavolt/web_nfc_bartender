@@ -187,7 +187,7 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
       nameOverlay.textContent = name;
       Object.assign(nameOverlay.style, {
         position: 'absolute',
-        top: '5px',
+        top: '1px',
         left: '50%',
         transform: 'translateX(-50%)',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -353,6 +353,66 @@ const DrinkButtons = [
     name: 'Planters-Punch'
   },
   {
+    id: 6,
+    imageUrl: 'img/drink17.png',
+    payload: '<xx>',
+    name: 'Cuba-Libre'
+  },
+  {
+    id: 7,
+    imageUrl: 'img/drink6.png',
+    payload: '<xx>',
+    name: 'Vodka-Cranberry'
+  },
+  {
+    id: 8,
+    imageUrl: 'img/drink15.png',
+    payload: '<xx>',
+    name: 'Gin Tonic'
+  },
+  {
+    id: 9,
+    imageUrl: 'img/drink2.png',
+    payload: '<xx>',
+    name: 'Vodka-Wildberry'
+  },
+  {
+    id: 10,
+    imageUrl: 'img/drink13.png',
+    payload: '<xx>',
+    name: 'Berry-Breeze'
+  },
+  {
+    id: 11,
+    imageUrl: 'img/drink14.png',
+    payload: '<xx>',
+    name: 'Pina-Colada'
+  },
+  {
+    id: 12,
+    imageUrl: 'img/drink10.png',
+    payload: '<xx>',
+    name: 'Alabama-Slammer'
+  },
+  {
+    id: 13,
+    imageUrl: 'img/drink11.png',
+    payload: '<xx>',
+    name: 'Southern-Hurricane'
+  },
+  {
+    id: 14,
+    imageUrl: 'img/drink5.png',
+    payload: '<xx>',
+    name: 'Bon-Voyage'
+  },
+  {
+    id: 99,
+    imageUrl: 'img/drinkxx.png',
+    payload: '<xx>',
+    name: 'Dummy'
+  },
+  {
     id: 99,
     imageUrl: 'img/drinkxx.png',
     payload: '<xx>',
@@ -426,7 +486,7 @@ const Ingredients = [
   },
   {
     id: 10,
-    ingredientName: 'Maraquja-Saft',
+    ingredientName: 'Wildberry-Juice',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
