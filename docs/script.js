@@ -318,11 +318,11 @@ const DrinkButtons = [
     //drink id 
     id: 1,
     //display image path
-    imageUrl: 'img/drink1.png',
+    imageUrl: 'img/drink11.png',
     //possible manual override otherwise drink
     payload: '<01>',      
     //display name    
-    name: 'Margarita',        
+    name: 'Tequilla Sunrise',        
     // <slot-id 8 bitsy x4><amount in ml 0-255>  max 4 ingredients dispensed at the same time 
     recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     //comment: 
@@ -330,22 +330,34 @@ const DrinkButtons = [
   },
   {
     id: 2,
-    imageUrl: 'img/drink2.png',
-    payload: '<01>',         
-    name: 'Margarita',     
+    imageUrl: 'img/drink1.png',
+    payload: '<xx>',         
+    name: 'Sex on the Beach',     
   },
   {
     id: 3,
-    imageUrl: 'img/drink3.png',
-    payload: 'nfc-payload-3',
-    name: 'Old Fashioned'
+    imageUrl: 'img/drink9.png',
+    payload: '<xx>',
+    name: 'Blue Lagoon'
   },
   {
     id: 4,
-    imageUrl: 'img/drink4.png',
-    payload: 'nfc-payload-4',
-    name: 'Old Fashioned'
-  }
+    imageUrl: 'img/drink10.png',
+    payload: '<xx>',
+    name: 'Mai Tai'
+  },
+  {
+    id: 5,
+    imageUrl: 'img/drink3.png',
+    payload: '<xx>',
+    name: 'Planters-Punch'
+  },
+  {
+    id: 99,
+    imageUrl: 'img/drinkxx.png',
+    payload: '<xx>',
+    name: 'Dummy'
+  },
 ];
 
 const Ingredients = [
