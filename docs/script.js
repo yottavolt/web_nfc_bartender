@@ -59,7 +59,7 @@ function generatePayload(type, values) {
 }
 
 //helper function for dynamic nfc write
-function setupDynamicNFCButton2(buttonId, getPayloadFn) {
+function setupDynamicNFCButton2(buttonId, getPayloadFn,text) {
   const button = document.getElementById(buttonId);
   if (!button) {
     console.error(`Button with ID "${buttonId}" not found.`);
@@ -75,7 +75,8 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
     const payload = getPayloadFn();
     modal.classList.remove('hidden');
     copyBtn.classList.add('hidden');
-    message.textContent = '📶 Hold your phone near the NFC tag... 📶';
+    message.textContent = '📶 Hold your phone near the NFC tag... 📶' + '\n\n' + text;
+    message.style.whiteSpace = 'pre-line';
 
     if ('NDEFReader' in window) {
       try {
@@ -90,7 +91,8 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn) {
         showSuccessAndClose(button, '❌ Write failed');
       }
     } else {
-      message.textContent = '⚠️ Web NFC not supported. Use the NFC-Tools app to manually create a Text Recorcd with the clipboard data';
+      message.textContent = '⚠️ Web NFC not supported.' + ' Use the NFC-Tools app to manually create a Text Record with the clipboard data.\n\n' + text;
+      message.style.whiteSpace = 'pre-line';
       copyBtn.classList.remove('hidden');
     }
 
@@ -244,7 +246,7 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
     if (isActive) {
       button.classList.add('active');
       button.style.cursor = 'pointer';
-      setupDynamicNFCButton2(button.id, () => payload);
+      setupDynamicNFCButton2(button.id, () => payload, buttonsData[index].comment);
     }
   });
 }
@@ -332,7 +334,8 @@ const DrinkButtons = [
     id: 2,
     imageUrl: 'img/drink1.png',
     payload: '<xx>',         
-    name: 'Sex on the Beach',     
+    name: 'Sex on the Beach', 
+    comment: "Tits :)"    
   },
   {
     id: 3,
@@ -466,7 +469,7 @@ const DrinkButtons = [
     id: 24,
     imageUrl: 'img/drink1.png',
     payload: '<xx>',
-    name: 'Abstinence Beach NA'
+    name: 'Sexy Beach NA'
       //40ml O-Saft 40ml Cranberry 20ml Annanas
   },
   {
