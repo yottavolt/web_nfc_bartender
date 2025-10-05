@@ -335,155 +335,180 @@ const DrinkButtons = [
     imageUrl: 'img/drink1.png',
     payload: '<xx>',         
     name: 'Sex on the Beach', 
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     comment: "Tits :)"    
   },
   {
     id: 3,
     imageUrl: 'img/drink9.png',
     payload: '<xx>',
-    name: 'Blue Lagoon'
+    name: 'Blue Lagoon',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 4,
     imageUrl: 'img/drink10.png',
     payload: '<xx>',
-    name: 'Mai Tai'
+    name: 'Mai Tai',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 5,
     imageUrl: 'img/drink12.png',
     payload: '<xx>',
-    name: 'Blue-Heaven'
+    name: 'Blue-Heaven',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 6,
     imageUrl: 'img/drink17.png',
     payload: '<xx>',
-    name: 'Cuba-Libre'
+    name: 'Cuba-Libre',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 7,
     imageUrl: 'img/drink6.png',
     payload: '<xx>',
-    name: 'Vodka-Cranberry'
+    name: 'Vodka-Cranberry',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 8,
-    imageUrl: 'img/drink2.png',
+    imageUrl: 'img/drinkxx.png',
     payload: '<xx>',
-    name: 'Vodka-Wildberry'
+    name: 'EMPTY',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 9,
     imageUrl: 'img/drink15.png',
     payload: '<xx>',
-    name: 'Gin Tonic'
+    name: 'Gin Tonic',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 10,
     imageUrl: 'img/drink13.png',
     payload: '<xx>',
-    name: 'Berry-Breeze'
+    name: 'Berry-Breeze',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 11,
     imageUrl: 'img/drink14.png',
     payload: '<xx>',
-    name: 'Pina-Colada'
+    name: 'Pina-Colada',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 12,
     imageUrl: 'img/drink18.png',
     payload: '<xx>',
-    name: 'Southern-O'
+    name: 'Southern-O',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 13,
     imageUrl: 'img/drink19.png',
     payload: '<xx>',
-    name: 'BlueBerry-Cooler'
+    name: 'BlueBerry-Cooler',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 14,
     imageUrl: 'img/drink6.png',
     payload: '<xx>',
-    name: 'Southern-Berry'
+    name: 'Southern-Berry',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 15,
     imageUrl: 'img/drink4.png',
     payload: '<xx>',
-    name: 'Tequilla-Cranberry'
+    name: 'Tequilla-Cranberry',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 16,
     imageUrl: 'img/drink9.png',
     payload: '<xx>',
-    name: 'Blueberry-Smash'
+    name: 'Blueberry-Smash',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 17,
     imageUrl: 'img/drink14.png',
     payload: '<xx>',
-    name: 'Berry-Colada'
+    name: 'Berry-Colada',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 18,
     imageUrl: 'img/drink16.png',
     payload: '<xx>',
-    name: 'Gin-Fizz'
+    name: 'Gin-Fizz',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 19,
     imageUrl: 'img/drink18.png',
     payload: '<xx>',
-    name: 'Sunset-Mock'
+    name: 'Sunset-Mock',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 20,
     imageUrl: 'img/drink20.png',
     payload: '<xx>',
-      name: 'Blueberry-Tequilla'
+      name: 'Blueberry-Tequilla',
+      recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 21,
     imageUrl: 'img/drink12.png',
     payload: '<xx>',
-      name: 'Ocean-Breeze'
+      name: 'Ocean-Breeze',
+      recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 22,
     imageUrl: 'img/drink14.png',
     payload: '<xx>',
-      name: 'Coconut-Kiss NA'
+      name: 'Coconut-Kiss NA',
+      recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
       //coconut sirup 60ml annanas 20ml limettensaft
   },
   {
     id: 23,
     imageUrl: 'img/drink13.png',
     payload: '<xx>',
-    name: 'Berry-Blast NA'
+    name: 'Berry-Blast NA',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     //ingredients: 40ml Heidelberre, 40ml Cranberry, 20ml Limettensaft
   },
   {
     id: 24,
     imageUrl: 'img/drink1.png',
     payload: '<xx>',
-    name: 'Sexy Beach NA'
+    name: 'Sexy Beach NA',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
       //40ml O-Saft 40ml Cranberry 20ml Annanas
   },
   {
     id: 25,
     imageUrl: 'img/drink3.png',
     payload: '<xx>',
-    name: 'Citrus-Refresher NA'
+    name: 'Citrus-Refresher NA',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     //40ml Limette 60ml orange, grenadine sirup+ top with tonic water 
   },
   {
     id: 26,
     imageUrl: 'img/drink7.png',
     payload: '<xx>',
-    name: 'Tropical-Sunset NA'
+    name: 'Tropical-Sunset NA',
+    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     //orange ananas, grenadine
   },
 ];
