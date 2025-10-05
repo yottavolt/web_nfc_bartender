@@ -307,7 +307,12 @@ function setupLoadingBars(ingredients) {
 }
 
 function generateInitPayload() {
-  let dataString = "<INIT><PW1234></>";
+  let dataString = "<INIT><";
+  const pw = document.getElementById('userPassword');
+  //atatch pw to init string <INIT><Password> ==> recipe payloads
+  dataString += pw.value
+  dataString += "></>"
+  
   for (let i = 0; i < DrinkButtons.length; i++) {
     dataString += DrinkButtons[i].recipe1;
     
