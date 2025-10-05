@@ -317,8 +317,33 @@ function generateInitPayload() {
     dataString += DrinkButtons[i].recipe1;
     
   }
-  console.log(dataString);
+  //console.log(dataString);
   return dataString; // example payload string
+}
+
+function generateFillLevelPayload() {
+  const container = document.getElementById('loading-container');
+  if (!container) return '<RESET><00>';
+
+  const checkboxes = container.querySelectorAll('.reset-checkbox');
+
+  let bitmask = 0n; // use BigInt in case there are more than 32 checkboxes
+
+  checkboxes.forEach((cb, index) => {
+    if (cb.checked) {
+      bitmask |= 1n << BigInt(index);
+    }
+  });
+
+  // Convert BigInt to hexadecimal string (uppercase)
+  let hexString = bitmask.toString(16).toUpperCase();
+
+  // Ensure at least two digits
+  if (hexString.length % 2 !== 0) {
+    hexString = '0' + hexString;
+  }
+
+  return `<RESET><${hexString}>`;
 }
 
 
@@ -331,6 +356,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //for seting up init string
   setupDynamicNFCButton2("setupBtn", generateInitPayload, "Warning: Writing init string will reset Machine" );
+
+  //for resetting the Fill levels
+  setupDynamicNFCButton2("resetBtn", generateFillLevelPayload, "The selected drinks will be reset" );
 });
 
 const DrinkButtons = [
