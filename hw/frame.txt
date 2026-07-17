@@ -1,0 +1,16 @@
+Frame parts:
+    -2x Alu-Profile black 30x30x300
+    -2x Alu-Profile black 30x30x700
+
+Top plate:
+    -76 x 30 x 0,8 cm  (plexiglass...)
+    -Row1   ==> 7 x 12,66 | 25.33 | 37,99 | 50,66 | 63,33
+    -Row2   ==> 23 x 12,66 | 25.33 | 37,99 | 50,66 | 63,33
+
+
+
+
+
+
+
+

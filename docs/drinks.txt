@@ -1,0 +1,142 @@
+//this is my drink selection for a 13 slot coctail machine, 10 gravity fed ones for thin juices, 3 sirup pumps for thick ones
+//stuff wit soda cannot be dispensed optimize, in my commets i told what i am unshure with the rest id like to keepp...
+
+//-----------------------------------------
+//drink ids (gravity fed options....)
+//-----------------------------------------
+01 ==> gin
+02 ==> white rum
+03 ==> vodka
+04 ==> tequilla 
+05 ==>peach schnaps
+06 ==> orange juice
+07 ==> ananas juice
+08 ==> lime juice
+09 ==> blue curacao
+10 ==> cranberry juice
+
+//syrup pumps (for more thick stuff)
+11 ==> coconut cream
+12 ==> grenadine syrup
+13 ==> woodruff
+
+
+
+
+//TrippleSeq/blue drinks!!!!! ( to not forget that i can make them with blue curacao use tripple seq with blue curacao if color doesnt...)
+Blue Margarita: Tequila (04) + Lime Juice (08) + Blue Curacao (09)
+Cosmopolitan: Vodka (03) + Cranberry Juice (10) + Lime Juice (08) + Blue Curacao (09)
+Electric Kamikaze: Vodka (03) + Lime Juice (08) + Blue Curacao (09)
+White Lady: Gin (01) + Lime Juice (08) + Blue Curacao (09)
+Long Island Iced Tea / AMF (Base): Gin (01) + White Rum (02) + Vodka (03) + Tequila (04) + Lime Juice (08) + Blue Curacao (09)
+Blue Lagoon: Vodka (03) + Lime Juice (08) + Blue Curacao (09)
+Ocean: Vodka (03) + Blue Curacao (09) + Cranberry Juice (10)
+
+//peach schnaps
+Sex on the Beach: Vodka (03) + Peach Schnapps (05) + Orange Juice (06) + Cranberry Juice (10)
+Woo Woo: Vodka (03) + Peach Schnapps (05) + Cranberry Juice (10)
+Fuzzy Navel: Peach Schnapps (05) + Orange Juice (06)
+Key West Cooler: Vodka (03) + White Rum (02) + Peach Schnapps (05) + Orange Juice (06) + Cranberry Juice (10)
+
+
+//woodruff / waldmeister sours & sweets
+Waldmeister Sour: Vodka (03) + Lime Juice (08) + Woodruff (13)
+Green Goblin: Vodka (03) + Peach Schnapps (05) + Lime Juice (08) + Woodruff (13)
+Woodruff Caipirinha Twist: White Rum (02) + Lime Juice (08) + Woodruff (13)
+Woodruff Gin Collins (Base): Gin (01) + Lime Juice (08) + Woodruff (13)
+
+
+//tropical / creams & syrups
+Piña Colada: White Rum (02) + Ananas Juice (07) + Coconut Cream (11)
+Blue Hawaiian: White Rum (02) + Ananas Juice (07) + Blue Curacao (09) + Coconut Cream (11)
+San Francisco: Vodka (03) + Orange Juice (06) + Ananas Juice (07) + Grenadine Syrup (12)
+Tequila Sunrise: Tequila (04) + Orange Juice (06) + Grenadine Syrup (12)
+Malibu Sunset Clone: White Rum (02) + Peach Schnapps (05) + Ananas Juice (07) + Grenadine Syrup (12)
+
+
+//straight sours & highball bases
+Vodka Gimlet: Vodka (03) + Lime Juice (08)
+Gin Gimlet: Gin (01) + Lime Juice (08)
+Rum Punch: White Rum (02) + Orange Juice (06) + Ananas Juice (07) + Lime Juice (08) + Grenadine
+
+
+
+//Cuba libre
+//Vodka cranberry
+//mai tai
+//sunset mock?
+
+SexyBeach NA
+Berry Blast NA 
+Citrus refreshe NA
+CoconutKiss NA
+
+
+
+
+
+
+
+
+//zum abgleich...
+1. The Blue & Electric Collection (Using 09)
+
+High visual impact, very popular.
+
+    Blue Margarita: 04 + 08 + 09
+    Electric Kamikaze: 03 + 08 + 09
+    Blue Lagoon: 03 + 08 + 09
+    Blue Hawaiian: 02 + 07 + 09 + 11
+    Ocean Mist: 03 + 09 + 10
+    White Lady: 01 + 08 + 09
+    Long Island / AMF: 01 + 02 + 03 + 04 + 08 + 09
+
+2. The Tropical & Creamy Collection (Using 07, 11, 12)
+
+Smooth, dessert-like textures.
+
+    Piña Colada: 02 + 07 + 11
+    Tequila Sunrise: 04 + 06 + 12
+    San Francisco: 03 + 06 + 07 + 12
+    Malibu Sunset: 02 + 05 + 07 + 12
+    Rum Punch: 02 + 06 + 07 + 08 + 12
+
+3. The Peach & Fruit Collection (Using 05, 06, 10)
+
+Sweet, easy-drinking flavors.
+
+    Sex on the Beach: 03 + 05 + 06 + 10
+    Woo Woo: 03 + 05 + 10
+    Fuzzy Navel: 05 + 06
+    Key West Cooler: 03 + 02 + 05 + 06 + 10
+
+4. The Woodruff & Sour Collection (Using 13, 08)
+
+Unique, earthy, and sharp flavors.
+
+    Waldmeister Sour: 03 + 08 + 13
+    Green Goblin: 03 + 05 + 08 + 13
+    Woodruff Gin Collins: 01 + 08 + 13
+    Woodruff Rum Twist: 02 + 08 + 13
+    Vodka Gimlet: 03 + 08
+    Gin Gimlet: 01 + 08
+
+5. Completed "Unsure" Drinks
+
+I have adapted these to fit your specific 13-slot constraint (no soda).
+
+    Vodka Cranberry: 03 + 10
+    Rum & Lime (Replaces Cuba Libre): 02 + 08 (Since you can't use Cola)
+    Tropical Mai Tai (Modified): 02 + 05 + 06 + 07 (Uses your existing peach/fruit profile)
+
+6. Non-Alcoholic (NA) Menu
+
+These use only juices, syrups, and "flavor" liquids to ensure they are refreshing without alcohol.
+
+    Sunset Mocktail: 06 (Orange) + 07 (Ananas) + 12 (Grenadine)
+    Virgin Piña: 07 (Ananas) + 11 (Coconut)
+    Blue Lagoon NA: 09 (Blue Curacao Flavor) + 08 (Lime) + 07 (Ananas)
+    Cranberry Blush: 10 (Cranberry) + 08 (Lime) + 12 (Grenadine)
+    Tropical Paradise: 06 (Orange) + 07 (Ananas) + 11 (Coconut)
+    Woodruff Spritz (No Soda version): 13 (Woodruff) + 08 (Lime) + 07 (Ananas)
+    Summer Punch: 06 (Orange) + 10 (Cranberry) + 12 (Grenadine)
