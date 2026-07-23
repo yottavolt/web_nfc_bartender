@@ -343,6 +343,10 @@ function generateFillLevelPayload() {
     hexString = '0' + hexString;
   }
 
+
+
+  
+
   return `<RESET><${hexString}>`;
 }
 
@@ -372,7 +376,7 @@ const DrinkButtons = [
     //display name    
     name: 'Tequilla Sunrise',        
     // <slot-id 8 bitsy x4><amount in ml 0-255>  max 4 ingredients dispensed at the same time 
-    recipe1: "<CFGD><01><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
+    recipe1: "<CFGD><01><00210304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     //comment: 
     comment: "Enjoy your drink :)"
   },

@@ -1,17 +1,19 @@
-#include<Arduino.h>
+#include <Arduino.h>
 #include "ST25DVSensor.h"
 #include <Wire.h>
 #include "i2c_device.h"
-#include <Adafruit_NeoPixel.h>
 #include <string.h>
 #include "solenoid_driver.h"
+#include "neopixel_ring.h" // Include your new header
 
 #define DEV_I2C Wire
 ST25DV st25dv(-1, -1, &DEV_I2C);
 
+// Configurable LED count and pin assignments
 #define LED_PIN    PB10
-#define LED_COUNT  1
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+#define LED_COUNT  8 // Changed to 12 to make the ring patterns visible
+
+NeoPixelRing ring(LED_COUNT, LED_PIN);
 SolenoidDriver solenoids;
 
 void initTag(){
@@ -20,13 +22,8 @@ void initTag(){
 }
 
 void setup() {
-
-  // Initialize serial for output.
-   SerialUSB.begin();
-
-   //waiting for serial usb to conenct causes wait until com port open so a no no
-   delay(1500);
-
+  SerialUSB.begin();
+  delay(1500);
   SerialUSB.println("SerialUSB working!");
 
   initi2c();
@@ -34,49 +31,56 @@ void setup() {
   initnfcdevice(st25dv);
   initTag();
 
-   strip.begin();
-   strip.show();
+  // Initialize our new ring setup
+  ring.init();
+  ring.setColor(ring.Color(0, 80, 190)); // Start dim blue
+  ring.setPattern(PATTERN_SPIN_FADE);
+  ring.setAnimationSpeeds(0.02f, 0.08f);
 
-   strip.setPixelColor(0, strip.Color(10, 10, 0)); // Red
-   strip.show();
-   solenoids.init();
+  solenoids.init();
 }
 
 void parseString(String input){
   SerialUSB.println(input);
 
-  //Activate cleaning / test mode
+  // Activate cleaning / test mode
   if (input.startsWith("<01>")) {
-    solenoids.test();
+
+    ring.setColor(ring.Color(0, 255, 0)); // Green fill color
+    ring.setAnimationSpeeds(0.2f, 0.4f);
+    ring.setFillPercentage(50);
+    ring.setPattern(PATTERN_FILL);
+    
+
+    //solenoids.test();
+    
   } 
 }
 
-
 void loop() {  
+  // CRITICAL CHANGE: We must remove the large delay(2500) from the main loop!
+  // If we leave delay(2500), the animations will pause and stutter.
+  // Instead, use a non-blocking millis timer for the NFC check:
+  
+  static uint32_t lastNFCCheck = 0;
+  
+  // Call the LED loop handler constantly every execution cycle
+  ring.handle(); 
 
-  delay(2500);
+  // Check the NFC tag periodically without stopping the CPU
 
-  String uri_read;
-  if(st25dv.readText(&uri_read)) {        //if no text nothing has been changed, if text then new data has been written by application, then update data
-    SerialUSB.println("No-Update");
-  }
-  else{             
-    SerialUSB.println("Updated data detected");     //do something with thew data and write url back to the tag
+  if (millis() - lastNFCCheck >= 1000) {
+    lastNFCCheck = millis();
     
-    parseString(uri_read.c_str());
-    initTag();
+    String uri_read;
+    if(st25dv.readText(&uri_read)) {        
+      SerialUSB.println("No-Update");
+    }
+    else {             
+      SerialUSB.println("Updated data detected");     
+      parseString(uri_read.c_str());
+      initTag();
+    }
   }
 
-    
-
-} 
-
-
-//functionality ==> accept recipe string with time/liquid input, acitvate 3 at a time
-//init all drinks fluid levels during init
-//reset / fill them with password
-//if drink empty reject with red led ring
-
-//idle led ring, sucess and fail maybe finish 
-
-
+}
