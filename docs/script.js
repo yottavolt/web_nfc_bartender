@@ -5,7 +5,6 @@
 //16pump channels
 //24 drinks
 
-
   // Sidebar toggle
   document.getElementById('menu-toggle').addEventListener('click', () => {
     document.getElementById('sidebar').classList.toggle('open');
@@ -57,8 +56,21 @@ function generatePayload(type, values) {
   }
 }
 
+// Helper to check if user is on iOS
+function isIOS() {
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
+  || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+}
+
 //helper function for dynamic nfc write
-function setupDynamicNFCButton2(buttonId, getPayloadFn,text) {
+function setupDynamicNFCButton2(buttonId, getPayloadFn, text) {
   const button = document.getElementById(buttonId);
   if (!button) {
     console.error(`Button with ID "${buttonId}" not found.`);
@@ -74,10 +86,17 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn,text) {
     const payload = getPayloadFn();
     modal.classList.remove('hidden');
     copyBtn.classList.add('hidden');
-    message.textContent = '📶 Hold your phone near the NFC tag... 📶' + '\n\n' + text;
-    message.style.whiteSpace = 'pre-line';
+    
+    // Reset click handlers and properties on action button
+    copyBtn.onclick = null;
+    copyBtn.removeAttribute('href');
+    copyBtn.removeAttribute('target');
 
+    // MODE 1: Web NFC Available
     if ('NDEFReader' in window) {
+      message.textContent = '📶 Hold your phone near the NFC tag... 📶\n\n' + text;
+      message.style.whiteSpace = 'pre-line';
+
       try {
         const ndef = new NDEFReader();
         await ndef.write({ records: [{ recordType: "text", data: payload }] });
@@ -89,24 +108,42 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn,text) {
         copyBtn.classList.remove('hidden');
         showSuccessAndClose(button, '❌ Write failed');
       }
-    } else {
-      message.textContent = '⚠️ Web NFC not supported.' + ' Use the NFC-Tools app to manually create a Text Record with the clipboard data.\n\n' + text;
-      message.style.whiteSpace = 'pre-line';
-      copyBtn.classList.remove('hidden');
-    }
 
-    copyBtn.onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(payload);
-        message.textContent = '✅ Copied to clipboard. Paste into NFC Tools.';
-        copyBtn.classList.add('hidden');
-        showSuccessAndClose(button, '✅ Copied');
-      } catch (err) {
-        console.error(err);
-        message.textContent = '❌ Failed to copy. Please copy manually.';
-        showSuccessAndClose(button, '❌ Copy failed');
-      }
-    };
+    // MODE 2: iOS Detected -> Deep Link to NFC Helper app
+    } else if (isIOS()) {
+      message.textContent = '📱 Tap "Write to Tag" to launch NFC Helper on iOS.\n\n' + text;
+      message.style.whiteSpace = 'pre-line';
+      
+      copyBtn.textContent = '📱 Write to Tag';
+      copyBtn.classList.remove('hidden');
+
+      copyBtn.onclick = () => {
+        const deepLink = `nfchelper://write?payload=${encodeURIComponent(payload)}`;
+        window.location.href = deepLink;
+        showSuccessAndClose(button, '✅ Opened App');
+      };
+
+    // MODE 3: All other browsers/platforms -> Fallback to Clipboard
+    } else {
+      message.textContent = '⚠️ Web NFC not supported.\nUse NFC Tools or copy data to clipboard.\n\n' + text;
+      message.style.whiteSpace = 'pre-line';
+      
+      copyBtn.textContent = '📋 Copy to Clipboard';
+      copyBtn.classList.remove('hidden');
+
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(payload);
+          message.textContent = '✅ Copied to clipboard. Paste into your NFC App.';
+          copyBtn.classList.add('hidden');
+          showSuccessAndClose(button, '✅ Copied');
+        } catch (err) {
+          console.error(err);
+          message.textContent = '❌ Failed to copy. Please copy manually.';
+          showSuccessAndClose(button, '❌ Copy failed');
+        }
+      };
+    }
   });
 }
 
@@ -133,7 +170,6 @@ const availabilityMask = urlParams.get('d');
 const activeBits = availabilityMask ? parseInt(availabilityMask, 16) : null;
 
 function isButtonActive(index) {
-  // Active by default unless 'd' parameter is explicitly specified in URL
   if (activeBits === null) return true;
   return (activeBits & (1 << index)) !== 0;
 }
@@ -299,7 +335,7 @@ function setupLoadingBars(ingredients) {
 function generateInitPayload() {
   let dataString = "<INIT><";
   const pw = document.getElementById('userPassword');
-  dataString += pw.value;
+  dataString += pw ? pw.value : '';
   dataString += "></>";
   
   for (let i = 0; i < DrinkButtons.length; i++) {
