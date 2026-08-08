@@ -587,35 +587,35 @@ const Ingredients = [
   },
   {
     id: 4,
-    ingredientName: 'Southern-Comfort',
+    ingredientName: 'Peach-Liqor',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 5,
-    ingredientName: 'Tequilla',
-    containersize_ml: 600,
-    flow_rate_ml_min: 150,
-    metered: false
-  },
-  {
-    id: 6,
     ingredientName: 'Orangensaft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
-    id: 7,
+    id: 6,
     ingredientName: 'Annanassaft',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
-    id: 8,
+    id: 7,
     ingredientName: 'Limettensaft',
+    containersize_ml: 600,
+    flow_rate_ml_min: 150,
+    metered: false
+  },
+  {
+    id: 8,
+    ingredientName: 'BlueCuracao',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
@@ -629,14 +629,14 @@ const Ingredients = [
   },
   {
     id: 10,
-    ingredientName: 'Heidelbeer-Saft',
+    ingredientName: 'Tequilla',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
   },
   {
     id: 11,
-    ingredientName: 'Blue-Curacao',
+    ingredientName: 'Grenadine-Sirup',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
@@ -650,7 +650,7 @@ const Ingredients = [
   },
   {
     id: 13,
-    ingredientName: 'Grenadine-Sirup',
+    ingredientName: 'Waldmeister-Sirup',
     containersize_ml: 600,
     flow_rate_ml_min: 150,
     metered: false
