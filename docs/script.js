@@ -118,7 +118,7 @@ function setupDynamicNFCButton2(buttonId, getPayloadFn, text) {
       copyBtn.classList.remove('hidden');
 
       copyBtn.onclick = () => {
-        const deepLink = `nfchelper://write?payload=${encodeURIComponent(payload)}`;
+        const deepLink = `nfchelper://write?url=${encodeURIComponent(payload)}`;
         window.location.href = deepLink;
         showSuccessAndClose(button, '✅ Opened App');
       };
