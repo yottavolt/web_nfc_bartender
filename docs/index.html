@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cocktail-HMI</title>
   <link rel="stylesheet" href="style.css">
-
+  <script src="script.js" defer></script>
 </head>
 <body>
   <!-- Hamburger -->
@@ -15,53 +15,47 @@
   <aside id="sidebar" aria-label="Sidebar navigation">
     <button onclick="showSection('home')">Home</button>
     <button onclick="showSection('status')">Status</button>
+    <button onclick="showSection('help')">Help</button>
   </aside>
 
- <!-- Modal -->
-<div id="nfcModal" class="modal hidden">
-  <div class="modal-content">
-    <p id="nfcMessage">Hold your phone near the NFC tag...</p>
-    <button id="copyFallbackBtn" class="hidden">📋 Copy to Clipboard</button>
+  <!-- Modal -->
+  <div id="nfcModal" class="modal hidden">
+    <div class="modal-content">
+      <p id="nfcMessage">Hold your phone near the NFC tag...</p>
+      <button id="copyFallbackBtn" class="hidden">📋 Copy to Clipboard</button>
+    </div>
   </div>
-</div>
 
   <!-- Pages -->
-<div id="home" class="section active" style="text-align:center">
-    <br>
-    <br>
-    <br>
+  <div id="home" class="section active" style="text-align:center">
+    <br><br><br>
     <div id="buttonContainer" class="nfc-button-container"></div>
-</div>
+  </div>
 
-<div id="status" class="section">
+  <div id="status" class="section">
     <div class="form-grid" id="formContainer" style="margin-top: 4rem;"></div>
     <div style="text-align:center">
       <div id="loading-container"></div>
       <br>
       <input type="password" id="userPassword" placeholder="Password">
-      <br>
-      <br>
+      <br><br>
       <button id="resetBtn">Refill-Reset</button>
-      <br>
-      <br>
+      <br><br>
       <button id="setupBtn">Init-Machine</button>
     </div>
-</div>
+  </div>
 
+  <div id="help" class="section">
+    <h3>📶 How to Write NFC Tags</h3>
+    <ul>
+      <li><strong>Android (Chrome/Edge):</strong> Web NFC is supported directly. Tap a drink and bring your tag near the device.</li>
+      <li><strong>iOS (iPhone/iPad):</strong> Tap the <em>"Write to Tag"</em> button to open the NFC Helper app automatically.</li>
+      <li><strong>Other Browsers:</strong> Copy the string to clipboard and paste it into the <em>NFC Tools</em> app.</li>
+    </ul>
+  </div>
 
-<div id="help" class="section">
-      <h3>📶 How to Write NFC Tags</h3>
-      <ul>
-        <li><strong>Android (Chrome/Edge):</strong> Web NFC is supported directly. Tap a drink and bring your tag near the device.</li>
-        <li><strong>iOS (iPhone/iPad):</strong> Tap the <em>"Write to Tag"</em> button to open the NFC Helper app automatically.</li>
-        <li><strong>Other Browsers:</strong> Copy the string to clipboard and paste it into the <em>NFC Tools</em> app.</li>
-      </ul>
-    </div>s
-
-
+  <!-- Eruda Console Debugger -->
+  <script src="https://unpkg.com/eruda"></script>
+  <script>eruda.init();</script>
 </body>
-<script src="script.js" defer></script>
 </html>
-
-<script src="https://unpkg.com/eruda"></script>
-<script>eruda.init();</script>
