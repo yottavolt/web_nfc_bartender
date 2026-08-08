@@ -380,7 +380,7 @@ const DrinkButtons = [
   {
     id: 1,
     imageUrl: 'img/drink11.png',
-    payload: '<01>',      
+    payload: '//<01>',      
     name: 'Tequilla Sunrise',        
     recipe1: "<CFGD><01><00210304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     comment: "Enjoy your drink :)"
@@ -388,7 +388,7 @@ const DrinkButtons = [
   {
     id: 2,
     imageUrl: 'img/drink1.png',
-    payload: '<xx>',         
+    payload: '//<xx>',         
     name: 'Sex on the Beach', 
     recipe1: "<CFGD><02><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
     comment: "Tits :)"    
@@ -396,7 +396,7 @@ const DrinkButtons = [
   {
     id: 3,
     imageUrl: 'img/drink9.png',
-    payload: '<xx>',
+    payload: 'blablalb',
     name: 'Blue Lagoon',
     recipe1: "<CFGD><03><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
