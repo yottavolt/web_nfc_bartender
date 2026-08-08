@@ -1,4 +1,3 @@
-
 //planned for 16 pump channels / ingredients (theroreticly also 255 but only 4 dispensing at a time)
 //that can result with up to 255 configurable drinks
 
@@ -115,10 +114,8 @@ function showSuccessAndClose(button, successText = '✅ Success', restoreText = 
   const originalContent = button.innerHTML || button.textContent;
 
   button.disabled = true;
-  // Don't change button content here
 
   setTimeout(() => {
-    // Restore original content and enable button
     if (button.innerHTML !== undefined) {
       button.innerHTML = originalContent;
     } else {
@@ -131,24 +128,14 @@ function showSuccessAndClose(button, successText = '✅ Success', restoreText = 
   }, delay);
 }
 
-const availabilityMask = new URLSearchParams(window.location.search).get('d') || '00';
-const activeBits = parseInt(availabilityMask, 16);
+const urlParams = new URLSearchParams(window.location.search);
+const availabilityMask = urlParams.get('d');
+const activeBits = availabilityMask ? parseInt(availabilityMask, 16) : null;
 
 function isButtonActive(index) {
+  // Active by default unless 'd' parameter is explicitly specified in URL
+  if (activeBits === null) return true;
   return (activeBits & (1 << index)) !== 0;
-}
-
-function generatePayload(type, values) {
-  switch (type) {
-    case 'TEMP':
-      return '<TEMP>' + values.map(v => {
-        const clamped = Math.max(-20, Math.min(50, v));
-        const mapped = Math.round((clamped + 20) * 255 / 70);
-        return mapped.toString(16).padStart(2, '0').toUpperCase();
-      }).join('');
-    default:
-      return '<DATA>' + values.join('');
-  }
 }
 
 //function for providing labelling inside the nfc button  //?active=FF
@@ -162,6 +149,7 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
   container.innerHTML = '';
 
   const urlParams = new URLSearchParams(window.location.search);
+  const hasActiveParam = urlParams.has('active');
   const activeHex = urlParams.get('active') || '0';
   const activeMask = parseInt(activeHex, 16);
 
@@ -206,10 +194,12 @@ function setupMultipleNFCButtonswithName(containerId, buttonsData) {
       button.appendChild(nameOverlay);
     }
 
+    // Active status: Active by default unless ?active= parameter is passed in URL
+    const isActive = !hasActiveParam || (activeMask & (1 << (id - 1))) !== 0;
+
     // Status icon
     const status = document.createElement('div');
     status.className = 'status-icon';
-    const isActive = (activeMask & (1 << (id - 1))) !== 0;
     status.textContent = isActive ? '✅' : '❌';
 
     // Index badge (fixed styling + absolute position)
@@ -309,16 +299,13 @@ function setupLoadingBars(ingredients) {
 function generateInitPayload() {
   let dataString = "<INIT><";
   const pw = document.getElementById('userPassword');
-  //atatch pw to init string <INIT><Password> ==> recipe payloads
-  dataString += pw.value
-  dataString += "></>"
+  dataString += pw.value;
+  dataString += "></>";
   
   for (let i = 0; i < DrinkButtons.length; i++) {
     dataString += DrinkButtons[i].recipe1;
-    
   }
-  //console.log(dataString);
-  return dataString; // example payload string
+  return dataString;
 }
 
 function generateFillLevelPayload() {
@@ -327,7 +314,7 @@ function generateFillLevelPayload() {
 
   const checkboxes = container.querySelectorAll('.reset-checkbox');
 
-  let bitmask = 0n; // use BigInt in case there are more than 32 checkboxes
+  let bitmask = 0n;
 
   checkboxes.forEach((cb, index) => {
     if (cb.checked) {
@@ -335,49 +322,31 @@ function generateFillLevelPayload() {
     }
   });
 
-  // Convert BigInt to hexadecimal string (uppercase)
   let hexString = bitmask.toString(16).toUpperCase();
 
-  // Ensure at least two digits
   if (hexString.length % 2 !== 0) {
     hexString = '0' + hexString;
   }
 
-
-
-  
-
   return `<RESET><${hexString}>`;
 }
-
-
-
 
 //setup stuff
 document.addEventListener('DOMContentLoaded', () => {
   setupMultipleNFCButtonswithName('buttonContainer', DrinkButtons);
   setupLoadingBars(Ingredients);
 
-  //for seting up init string
   setupDynamicNFCButton2("setupBtn", generateInitPayload, "Warning: Writing init string will reset Machine" );
-
-  //for resetting the Fill levels
   setupDynamicNFCButton2("resetBtn", generateFillLevelPayload, "The selected drinks will be reset" );
 });
 
 const DrinkButtons = [
   {
-    //drink id 
     id: 1,
-    //display image path
     imageUrl: 'img/drink11.png',
-    //possible manual override otherwise drink
     payload: '<01>',      
-    //display name    
     name: 'Tequilla Sunrise',        
-    // <slot-id 8 bitsy x4><amount in ml 0-255>  max 4 ingredients dispensed at the same time 
     recipe1: "<CFGD><01><00210304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
-    //comment: 
     comment: "Enjoy your drink :)"
   },
   {
@@ -511,23 +480,22 @@ const DrinkButtons = [
     id: 20,
     imageUrl: 'img/drink20.png',
     payload: '<xx>',
-      name: 'Blueberry-Tequilla',
-      recipe1: "<CFGD><20><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
+    name: 'Blueberry-Tequilla',
+    recipe1: "<CFGD><20><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 21,
     imageUrl: 'img/drink12.png',
     payload: '<xx>',
-      name: 'Ocean-Breeze',
-      recipe1: "<CFGD><21><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
+    name: 'Ocean-Breeze',
+    recipe1: "<CFGD><21><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 22,
     imageUrl: 'img/drink14.png',
     payload: '<xx>',
-      name: 'Coconut-Kiss NA',
-      recipe1: "<CFGD><22><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
-      //coconut sirup 60ml annanas 20ml limettensaft
+    name: 'Coconut-Kiss NA',
+    recipe1: "<CFGD><22><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
   },
   {
     id: 23,
@@ -535,7 +503,6 @@ const DrinkButtons = [
     payload: '<xx>',
     name: 'Berry-Blast NA',
     recipe1: "<CFGD><23><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
-    //ingredients: 40ml Heidelberre, 40ml Cranberry, 20ml Limettensaft
   },
   {
     id: 24,
@@ -543,7 +510,6 @@ const DrinkButtons = [
     payload: '<xx>',
     name: 'Sexy Beach NA',
     recipe1: "<CFGD><24><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
-      //40ml O-Saft 40ml Cranberry 20ml Annanas
   },
   {
     id: 25,
@@ -551,7 +517,6 @@ const DrinkButtons = [
     payload: '<xx>',
     name: 'Citrus-Refresher NA',
     recipe1: "<CFGD><25><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
-    //40ml Limette 60ml orange, grenadine sirup+ top with tonic water 
   },
   {
     id: 26,
@@ -559,7 +524,6 @@ const DrinkButtons = [
     payload: '<xx>',
     name: 'Tropical-Sunset NA',
     recipe1: "<CFGD><26><01020304><00FF00FF00><01020304><00000000>><01020304><00000000></>",
-    //orange ananas, grenadine
   },
 ];
 

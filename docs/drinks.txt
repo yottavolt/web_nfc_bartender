@@ -8,7 +8,7 @@
 02 ==> white rum
 03 ==> vodka
 04 ==> tequilla 
-05 ==>peach schnaps
+05 ==> peach schnaps
 06 ==> orange juice
 07 ==> ananas juice
 08 ==> lime juice
